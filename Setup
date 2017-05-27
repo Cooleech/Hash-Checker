@@ -1226,7 +1226,12 @@ if [ $? = 0 ]; then
   if [ $ThisVersion -lt $OnlineVersion ]; then
    echo -e "[INFO]\nNew version is available!\n"
    zenity --question --title "$AppName $AppVer - Setup" --text "$AppName $CV is available\!\n\nWould you like to download it to $PWD?"
-   wget --waitretry=1 --tries=4 http://is.gd/HashChecker -q -O $PWD/HashChecker-$CV.tar.gz | echo -e "\nDownloading $CV version of $AppName..." ####################################################################################### DODAT LINK, PREIMENOVAT PAKET TAKO DA NEMA VERZIJU I IMENU
+   if [ $? = 0 ]; then
+    ##########################################################################################################
+    ####################### Dodat link, PREIMENOVAT paket tako DA NEMA VERZIJU u imenu #######################
+    ##########################################################################################################
+    wget --waitretry=1 --tries=4 http://is.gd/??? -q -O $PWD/HashChecker-$CV.tar.gz | echo -e "\nDownloading $CV version of $AppName..."
+   fi
   fi
  fi
 else
