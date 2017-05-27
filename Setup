@@ -1,16 +1,16 @@
 #!/bin/bash
-#================ Info: ================#
-# Script name	:	Setup 3.8			#
-# (Un)Installs	:	Hash Checker 4.x.x	#
-# Author		:	Cooleech			#
-# Contact me	:	cooleech@gmail.com	#
-# Homepage		:	http://goo.gl/aRIk	#
-#=======================================#
+#===============================================#
+# Script name	:	Setup 3.9
+# (Un)Installs	:	Hash Checker 4.x.x
+# Author	:	Cooleech
+# Contact me	:	cooleech@gmail.com
+# Homepage	:	http://goo.gl/aRIk
+#===============================================#
 
 #=======================================>	Variables	<=======================================#
 AppName="Hash Checker"
 AppVer="4.0.9"
-Sv="3.8"
+Sv="3.9"
 WindowSize="--width 620 --height 450"
 DotHCdir="$HOME/.HashCheck"
 SetupConfigFile="$DotHCdir/Setup.rc"
@@ -1217,7 +1217,7 @@ echo "Checking wget..."
 which wget
 if [ $? = 0 ]; then
  echo -e "[ OK ]\n"
- wget --waitretry=1 --tries=2 http://dl.dropbox.com/u/9350208/CurrentVersion -q | echo -e "Checking latest version of $AppName\n"
+ wget --waitretry=1 --tries=2 https://raw.githubusercontent.com/Cooleech/Hash-Checker/master/CurrentVersion -q | echo -e "Checking latest version of $AppName\n"
  if [ -e ./CurrentVersion ]; then
   CV=`cat ./CurrentVersion`
   rm ./CurrentVersion
@@ -1226,7 +1226,7 @@ if [ $? = 0 ]; then
   if [ $ThisVersion -lt $OnlineVersion ]; then
    echo -e "[INFO]\nNew version is available!\n"
    zenity --question --title "$AppName $AppVer - Setup" --text "$AppName $CV is available\!\n\nWould you like to download it to $PWD?"
-   wget --waitretry=1 --tries=4 http://is.gd/HashChecker -q | echo -e "\nDownloading latest version of $AppName..." ####################################################################################### DODAT LINK, PREIMENOVAT PAKET TAKO DA NEMA VERZIJU I IMENU
+   wget --waitretry=1 --tries=4 http://is.gd/HashChecker -q -O $PWD/HashChecker-$CV.tar.gz | echo -e "\nDownloading $CV version of $AppName..." ####################################################################################### DODAT LINK, PREIMENOVAT PAKET TAKO DA NEMA VERZIJU I IMENU
   fi
  fi
 else
