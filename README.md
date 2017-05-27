@@ -1,2 +1,2 @@
 # Hash-Checker
-Check your downloads
+Verify your downloads
