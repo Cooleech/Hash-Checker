@@ -1,0 +1,402 @@
+Upute za korištenje nalaze se u 'files' mapi!
+
+Legenda:
+
++ Dodano
+- Uklonjeno
+* Promjenjeno / Ispravljeno
+? Treba popraviti/dodati
+
+
+v4.0.9
++ Slovenski jezik
+- Neki dijelovi svih prijevoda
+* Bug pretrage u nekim distrama
+* Optimizacija koda
+* Manje izmjene obavijesti
+
+
+v4.0.8
+* Veća visina (250 > 290)
+* Bug pretrage (kad je defaultni web preglednik zatvoren prilikom provjere hash rezultata preko googlea)
+* Neke sitnije izmjene
+
+
+v4.0.7
++ Finski jezik
++ Integracija u Caju u MATE DE-u (desni klik > skripte > (nautilus >) ime hash checker skipte)
+- Glupe *~ (backup) datoteke
+* Provjera dostupnosti lokalizirane verzije (ispričavam se, ekipa, bio je to prilično GLUP bug)
+* Dvostruki rezultati u dialogu rezultata kada se provjerava ista datoteka dvaput (bez zatvaranja HC-a) kao rezultat ispravke greške u tekstualnoj datoteci hasheva (prepisivanje umjesto nadodavanja). Hvala K4P1u za prijavu ovog buga!
+* U dialogu odinstalacije "UPOZORENJE!!!" zamjenjeno sa "Odinstalirati?"
+* HC ikona nešto poboljšana/veličinom manja
+* Datoteke s rezultatima promjenile nastavak iz .txt u .*sum
+* Druge manje promjene
+
+
+v4.0.6
+* Glupa "ništa za provjeriti" greška kad je samo "Spremi rezultat hasha u tekstualnu datoteku" odabrano
+* Sada pouzdanije provjerava zenity verziju
+* Setup prozori ne mjenjaju veličinu kao što su u novijim verzijama zenitya
+* Prilagođeni naslovi botuna sada rade i na novijim zenity verzijama
+* Ispravke u hrvatskom prijevodu i u ovoj datoteci
+
+
+v4.0.5
++ Slovački jezik
+* Greška sa & (ampersand) znakom u imenu ili putanji datoteke
+
+
+v4.0.4
+* Manja promjena u prozoru Setup jezika
+* Sigurnija provjera root korisnika (po UID-u)
+* Putanja skripte od sad je u skrivenoj .HashCheck mapi, a u nautilus-scripts folder se radi symlink
+- Portugalski prijevod zbog previše neprevedenih rečenica
+- Nema više "popravljanja" putanje u ikoni radne površine jer skripta ne mjenja ni ime ni putanju
+- Izbačena brojčana oznaka verzije HC-a iz hc.conf datoteke da se smanji broj zapisa na SSD-ovima
+
+
+v4.0.3
++ Još jednom - Tradicionalni kineski prijevod
+* Mali popravak u 'Readme first (en).txt' (krivi broj zadnje verzije)
+* Manje promjene u Setup skripti
+* Setup skripta otvara HC-ovu stranicu za nadogradnju samo ako je njena verzija niža od one koja je online
+
+
+v4.0.2
+
++ Provjera postojanja datoteke netom prije računanja hasha
+
+
+v4.0.1
+
++ Provjera dozvole čitanja datoteke
+* Kopiranje ikone
+* Preciznija provjera nadogradnje
+* Sve licence unutar Setup skripte samo na engleskom jeziku
+* Ime datoteke 'License.txt' promjenjeno u 'License - Multilingual.txt'
+* Manje promjene u svim jezicima
+
+
+v4.0.0
+
+- Instalacija putem terminala
+- Preimenovanje Hash Checker skripte
+- Greška pri otkazivanju odabira datoteke
++ Provjera dali je xdg-user-dirs-update instaliran
++ Provjera novije verzije i otvaranje Hash Checkerove web stranice (samo ako nije ista verzija instalirana) - treba imati wget da bi radilo
++ Opcija za spremanje hash rezultata u tekstualnu datoteku
+* Nova Setup skripta sa kraćom od/instalacijom
+* Konfiguracijske datoteke su preimenovane u priličnija imena i nastavke
+* Ispravni izlazni kodovi
+* Nadopunjen License.txt sa Rumunjskim prijevodom licence
+* Nadopunjene Upute (Manuali)
+
+
+v3.9.9
+
++ SHA1 hash provjera
++ Rumunjski jezik
+* Manje izmjene i ispravke u kodu
+* Optimiziraniji prijevodi
+* Greška u Brazilsko-Portugalskom prijevodu
+
+
+v3.9.8
+
+* Potencijalna greška sa navodnicima u imenu skripte
++ Portugalski (Brazil) jezik
+
+
+v3.9.7
+
+* Manje izmjene i optimizacija koda
+* Kraće ažuriranje/reinstalacija (preskače licencu ako je već prihvaćena/instaliran HC)
+
+
+v3.9.6
+
+* Potencijalna greška u imenu jezika instalirane skripte
+* Mala ispravka u Setupu kod ruske licence
++ Talijanski i ruski prijevod u License.txt
+
+
+v3.9.5
+
++ Ikona desktopa se također rekreira ako ima promjena u putanji ili imenu skripte
+* Ispravak greške u funkciji SHOW_SCRIPT_NAME (auto-imenovanje skripte nije radilo kako treba u svim slučajevima)
+* Piše u HashCheck.ini samo ako ima promjena u odabiru hasha provjere od zadnjeg pokretanja
+
+
+v3.9.4
+
++ Talijanski prijevod
+* Hash Checker skripta zapisuje svoje ime i lokaciju samo ukoliko ima promjena od zadnjeg pokretanja
+* Setup skripta je imala malih izmjena, a brojčana verzija je ostala nepromjenjena (ups :D)
+* Otvaranje "hc-setup-error" datoteke na svim sustavima (uklonjen nastavak .txt)
+
+
+v3.9.3-final
+
++ Provjera dali je instaliran zenity (ako nije, pokazuje poruku u jeziku sustava)
+* Sve provjere mogu se vidjeti tjekom instalacije ako se pokrene Setup kroz terminal
+* Popravljen nedostatak teksta tjekom provjere hasha
+* Neke manje ispravke
+* Nešto optimiziraniji kod
+
+
+v3.9.3-BETA
+
++ Sada radi na *KDE, *XFCE, *LXDE i **ostalim radnim okruženjima
+* Preskače prikaz imena skripte tjekom instalacije ukoliko ne postoji mapa nautilus-scripts (pretpostavlja se da nije Nautilus instaliran)
++ Ikona Hash Checkera
++ Ikona radne površine se kreira na kraju instalacije
++ Pokretanjem skripte, u HashCheck.rc se zapisuje njena trenutna lokacija i ime kako bi se, ukoliko se premjesti negdje drugdje, mogla locirati tjekom Setupa
+? Provjera instaliranosti paketa zenity, te ispravnost putanje ikone radne površine
+  *Testirano
+  **Netestirano
+
+
+v3.9.2
+
++ Ruski jezik
+* Automatski odabir jezika samo ako su prethodno instaliran jezik i jezik sustava isti, inače nudi odabir
+* U rezultatu podebljano samo ime datoteke i dobijen rezultat hasheva
+* Nešto manji kod Hash Checkera zbog uklanjanja većine komentara i par sitnih izmjena
+
+
+v3.9.1
+
++ Čitanje jezika već instalirane skripte (preskače odabir jezika)
++ Čitanje imena već instalirane skripte (to ime prikazuje u Setupu)
+* Pri instalaciji iste ili novije verzije skripte, ukoliko se promjeni postojeće ime skripte, briše skriptu starog imena
+* Popravljena reinstalacija na sustavima sa verzijom zenitya starijom od 2.24.0
+* Setup auto-odabire 'Odinstalacija HC-a' samo ako se reinstalira, inače ide na 'Instaliraj HC...'
+* Sortirana web pretraga rezultata provjere hasha (pri odabiru oba hasha prvo ide sha256 pa md5)
+* Mali fix u web pretrazi (izbačeno MD5: i SHA256:)
+* Manja optimizacija koda
+
+
+v3.9
+
++ Pamćenje zadnjeg/ih odabranog/ih hasha/eva uz postavljanje zadnjeg stanja
+- Datoteka ./.scriptversion
+* Mapa ./bin sa svim .bin datotekama u njoj zamjenjena sa novom Setup skriptom
+* Sortiran rezultat sa tipom hasha (prvo sha256 pa md5)
+* Bolje označeni rezultati i ime datoteke u skripti (podebljano ime gdje je to bilo izvedivo)
+* Odinstalacija Hash Checkera (bez mogućnosti brisanja drugih datoteka (nema traženja datoteke), odabire se automatski ukoliko je Hash Checker već instaliran)
+
+
+v3.8.6
+
++ Automatski odabir korisničkog jezika (engleski ako ga nema u izborniku)
+* Popravljen potencijalni problem detekcije "čudnih" verzija zenitya
+
+
+v3.8.5
+
+* Podrška za SVE GNU/Linux OS-e (sada radi na Debianu, Mintu, OpenSuSEu, PCLinuxOS-u, Ubuntuu...)
+* U poruci hash rezultata sada pokazuje N/A umjesto '' za neodabranu hash provjeru
+* Bolje sortiran kod Hash Checkera i Setupa
+- Navodnici (') iz izračunatog hasha
+* Ažurirani svi Manuali
+* U Setup skripti, kod 'Instalacije ili Uklanjanja', druga kolumna dobila naslov "Odaberi zadatak"
+* Poruka otkazivanja instalacije samo u odabranom jeziku
+
+
+v3.8.4
+
+* Instalacijska skripta:
+  * Install skripta uklonjena/stopljena u Setup skriptu
+  * Instalacija i uklanjanje Hash Checkera ili bilo koje druge datoteke
+  * Prvo pita za jezik, pa pokazuje Licencu u tom jeziku
+  * Ako je tjekom instalacije ime skripte prazno, opet pita za ime, ne abortira se (osim ukoliko se ne odabere Cancel)
+  + Skrivena mapa .HashCheck iz koje čita jezik, ime i verziju skripte
+  + Detekcija Hash Checker skripte pri uklanjanju datoteka
+  + Odinstalacija iz terminala (--uninstall)
+
+* Skripta hasha:
+  * Sitne izmjene u HC skripti (prilagođen tekst dugmadi)
+
+* Ostalo
+  - Uklonjen Tradicionalni kineski prijevod (previše je nepreveden (gdje si, cwchien?!))
+  - Debian 5.xx i Ubuntu 8.xx podrška (ne radi niti pri instalaciji kroz terminal)
+  * Manuali ažurirani
+
+
+v3.8.3.2
+
+* Ažuriran License.txt na novu licencu za sve jezike*
+	(* osim Tradicionalnog kineskog)
+
+
+v3.8.3.1 (v3.8.3 fix)
+
+* Popravljena GUI instalacija za Debian 5.xx i Ubuntu 8.04 LTS strojeve
+
+
+v3.8.3
+
+* Instalacijska skripta:
+ + Parametri jezika za (bržu) instalaciju kroz Terminal (upišite --help za prikaz dostupnih parametara)
+ + Prikaz licence pri pokretanju instalacije
+
+* Skripta hasha:
+ + Ime provjeravane datoteke u prikazu rezultata hasha
+ * Skraćeno ime .bin datoteka (izbačeno '_data' iz imena)
+ * Sitne izmjene u kodu
+
+* Ostalo
+ * Ispravka u License.txt
+
+
+v3.8.2
+
++ Grčki prijevod
++ License.txt za sve jezike
+- Sve "read me first" datoteke osim engleske i hrvatske
+* Spremanje hash .txt datoteka u mapu provjeravane datoteke
+* Konačno ispravna pretraga Googlea
+
+
+v3.8.1
+
+* Instalacijska skripta:
+  * Manje izmjene u naslovu jezika unutar Install skripte
+  * Velika optimizacija instalera
+
+* Skripta hasha:
+  + Francuski i njemački prijevod
+  - Otvaranje tekstualnog editora (zbog novog načina pretrage više nije potrebno)
+  * .txt datoteka izračunatog hasha sprema se u mapu provjeravane datoteke tek pri otvaranju web browsera
+  * Otvaranje dva taba pretrage pri odabiru provjere obe vrste hasha (hvala na opasci, cwchien)
+  * Provjera datoteka u sistemskim mapama (ali bez spremanja .txt datoteka u te mape)
+  * Putanja do datoteke koja se javljala pri odabiru datoteke u prozoru traganja
+  * Uvelike poboljšana web pretraga rezultata
+
+
+v3.8
+
+* Instalacijska skripta:
+  + Provjerava dali je pokrenuta od strane root korisnika (ako je, upozori i gasi se)
+  + Provjera instaliranosti
+  * Nosi ime "Install HashCheck" sa brojkom verzije koju "pročita" iz ".scriptversion" datoteke
+  + Španjolski i tradicionalni kineski prijevod u gotovo svim dijelovima skripte
+
+* Skripta hasha:
+  + Provjera datoteka veličine 0 bajta i upozorenje o besmislenosti provjere
+  + Provjera već postojećih datoteka hasha i pitanje za brisanje
+  * Spojena poruka pitanja i izračuna
+  + Pokretanje googlea u web pregledniku sa traženjem hasha (beta)
+  + Tradicionalni kineski prijevod
+  * Obnovljen španjolski prijevod
+
+* Translator
+  - Nema više Translation skripte! Zamjenio sam je sa 'Translation' datotekom koja će biti upakirana u svim budućim izdanjima.
+
+
+v3.7.1
+
++ Španjolski prijevod
+- Zaostalo smeće iz prve verzije Install skripte (bilo je zakomentirano, ali i nepotrebno :))
+* Sitna ispravka u Upute (hr).txt datoteci
+
+
+v3.7
+
++ Traganje za datotekom ukoliko se klikne desnim klikom "u prazno"
+* Optimizacija koda korištenjem "function" funkcije
+
+
+v3.6.1
+
+* Bug kod putanje sa razmakom (učitavanje izračunatog/ih hasha/eva u poruku nije radilo u nekim
+  slučajevima (/home/korisničkoime/Radna površina))
+
+
+v3.6-fix
+
+* Glupi bug uklonjen iz en_data.bin (navodnik viška)
+
+
+v3.6
+
+- Upozorenje prilikom otkazivanja provjere hasha
++ Traka napretka (zbog boljeg snalaženja u napretku rada)
+* Otkazivanje tekstualnog editora sad otvara poruku sa izračunatim hashom (stvorene .txt datoteke
+  se brišu)
+* Optimizacija koda
+
+
+v3.5.1
+
+* Ime arhive iz CalcHashInstall promjenjeno u InstallHashCheck (sad ima više smisla)
+* Manje promjene unutar obje skripte provjere sukladno novom imenu
++ Ime odabrane datoteke u dialogu odabira vrste hasha (za lakše snalaženje u radu)
+
+
+v3.5
+
+* Sitne izmjene u izračunskoj skripti
+* Iznova izrađena "Install" (instalacijska) skripta
+* Dvojezična verzija instalacije (Engleska i Hrvatska, odabire se prilikom instalacije)
+- Otvori i Spremi dialozi iz "Install" skripte (više nisu potrebni)
+
+
+v3.3.1
+
++ Upit za pokretanje tekstualnog uređivača
+* Pozdrav i upozorenje samo ako se otkaže pokretanje tekstualnog uređivača
+* Mikro ispravke u skripti (jedan navod)
+
+
+v3.3
+
++ Otvaranje datoteke/a hasha (.txt) uobičajenim tekstualnim uređivačem
+- CRC32 hash provjera (mongi nemaju taj binarni fajl instaliran, stoga ga ni ne koriste
+* Manje promjene u skriptama
+
+
+v3.2.2
+
+* Ponovno "ispravljanje" nepostojeće greške u crc32 provjeri
+* Manje izmjene u tekstu skripti
+
+
+v3.2.1
+
+- Dosta zaostalog smeća u mapi (backup fajlovi)
+* Ispravljena greška u crc32 hash provjeri (naredba crc32 je trebala biti crc32sum)
+* Manje izmjene u ostalim datotekama
+
+
+v3.2
+
++ Provjera za CRC32 (v3.1)
+* Sitne izmjene u instalacijskoj i kalkulacijskoj skripti
+* "Pročitaj me.txt" sad je "Upute za (od)instalaciju.txt" uz manje dodatke i izmjene
+
+
+v3.1
+
++ Provjera za CRC32
++ Ova datoteka ;)
+* Nije doživila javno izdanje
+
+
+v3.0
+
++ Instalacijska skripta sa uputama za instalaciju
+- Otvaranje sa geditom (zbog onih koji ne koriste gedit)
+* Optimizacija koda skripte provjere
+* Bolje obavjesti o greškama
+
+
+v2.x
+
+* Nešto :)
+
+
+v1.0
+
+* Prvo javno izdanje

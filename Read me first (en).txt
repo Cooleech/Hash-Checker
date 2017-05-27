@@ -1,0 +1,359 @@
+Manuals are located in 'files' folder
+
+Legend:
+
++ Added
+- Removed
+* Changed / Fixed
+? Needs fixing/adding
+
+
+v4.0.9
++ Slovenian language
+- Some parts of all translations
+* Search bug in some distros
+* Code optimization
+* Minor changes
+
+
+What's new in v4.0.8
+* Bigger height (250 > 290)
+* Search bug (when default web browser was closed when checking for a hash result via google)
+* Some minor changes
+
+
+What's new in v4.0.7
++ Finnish language
++ Integration into MATE's Caja (right-click > scripts > (nautilus >) hash checker script name)
+- Stupid *~ (backup) files
+* Detecting if localized version available (sorry folks, it was pretty STUPID bug)
+* Double results in result dialog box when checking the same file twice (without closing HC first) as result of hash text file bug (overwriting instead of appending). Thanx to K4P1 for reporting this!
+* In uninstall dialog "WARNING!!!" replaced with "Uninstall?"
+* HC's icon a bit improved/smaller in size
+* Result text files changed extension from .txt into .*sum
+* Other minor changes
+
+
+What's new in v4.0.6
+* Stupid "nothing to check" bug when only "Save hash result into text file" is selected
+* Now properly checks zenity version
+* Setup's windows do not change size as much (problem with new zenity version)
+* Custom labels now work with newer zenity versions too
+* Corrections in Croatian language
+
+
+What's new in v4.0.5
++ Slovakian language
+* Ampersand (&) simbol fix in file's name or path
+
+
+What's new in v4.0.4
+* Minor change in Setup's language window
+* More secure way of checking for root user (by UID)
+* Script's path changed to .HashCheck folder, if exists, nautilus-scripts folder now contains symlink to it
+- Portugese (Brasil) translation due to too much untranslated strings
+- No more "fixing" of desktop icon, beacuse script doesn't change it's path or it's name
+- HC's version number excluded from hc.conf file to reduce number of writings on SSD's
+
+
+What's new in v4.0.3
++ Once again - Traditional Chinese translation
+* Minor fix in 'Readme first (en).txt' (wrong number of last version)
+* Minor changes in Setup script
+* Setup script opens HC's homepage only if it's version is lower than the one that's online
+
+
+What's new in v4.0.2
+
++ Check if selected file still exists just before calculating hash
+
+
+What's new in v4.0.1
+
++ Check for file's read rights
+* Icon copy bug
+* More precise check for update
+* All licenses inside Setup script are in english language only
+* File name of 'License.txt' changed into 'License - Multilingual.txt'
+* Small changes in all languages
+
+
+What's new in v4.0.0
+
+- Terminal installation
+- Hash Checker script renaming
+- Error message when canceling file chooser
++ Checking if xdg-user-dirs-update is installed
++ Checking for an updated version and opening Hash Checker's web site (only if different version is installed) - needs wget to work
++ Option for saving hash result into text file
+* New Setup script with shorter un/install
+* Config files are renamed into proper names and extensions
+* Correct exit codes
+* Updated License.txt with Romanian license translation
+* Updated Manual files
+
+
+What's new in v3.9.9
+
++ SHA1 hash check
++ Romanian language
+* Small changes and corrections in code
+* Optimized translations
+* Bug in Portuguese (Brasil) translation
+
+
+What's new in v3.9.8
+
+* Potential bug with quotes in script's name
++ Portuguese (Brasil) language
+
+
+What's new in v3.9.7
+
+* Small changes and code optimization
+* Shorter update/reinstall (skips license if already accepted/HC installed)
+
+
+What's new in v3.9.6
+
+* Potential bug in installed script language name
+* Small correction in Setup script at Russian license
++ Italian and Russian translation in License.txt
+
+
+What's new in v3.9.5
+
++ Desktop icon gets recreated if any changes in script's path or it's name
+* Fixed bug in SHOW_SCRIPT_NAME function (auto-nameing of Hash Checker script wasn't correct in all cases)
+* Writes in HashCheck.ini only if any changes in hash check selections since last run
+
+
+What's new in v3.9.4
+
++ Italian translation
+* Now Hash Checker writes it's name and location only if any changes since last time you run it
+* Setup script had small changes, and it's version wasn't changed (oops :D)
+* Opening "hc-setup-error" file on all systems (removed extension .txt)
+
+
+What's new in v3.9.3-final
+
++ Checking if zenity is installed (if not, shows message in system's language)
+* All stuff checked during instalation can be seen if running Setup through terminal
+* Fixed missing text during hash checking
+* Other small fixes
+* Slightly optimized code
+
+
+What's new in v3.9.3-BETA
+
++ Now works on *KDE, *XFCE, *LXDE and **other Desktop Enviromensts
+* Skips script name during instalation if there's no ~/.gnome2/nautilus-scripts folder (assumes there's no Nautilus installed)
++ Hash Checker's icon (pic)
++ Desktop icon (created in the end of the installation)
++ When running HC script, it's current name and location gets noted in HashCheck.rc, so Setup can locate it if is moved elsewhere
+? Zenity installation checking and correct path for desktop icon
+  *Tested
+  **Untested
+
+
+What's new in v3.9.2
+
++ Russian language
+* Automatically selects install language only if previously installed lang and system lang match, else offers it's selection
+* Bold fonts in result message only for file name and hash results
+* Somewhat smaller Hash Checker's code due to removing most of comments and few small changes
+
+
+What's new in v3.9.1
+
++ Detecting script's language if already installed (so now it skips language selection)
++ Detecting script's name if already installed (shows THAT name in Setup)
+* During install of the same or newer version of HC, if you change existing script's name in Setup, script with 'old' name gets deleted
+* Fixed reinstalling on systems with zenity version below 2.24.0
+* Setup auto-picks 'Uninstall HC' only if you're reinstalling, else it picks 'Install HC...'
+* Sorted web search of hash results (sha256 first, then md5)
+* Small fix in web search (removed MD5: and SHA256:)
+* Small code optimization
+
+
+What's new in v3.9
+
++ Remembers last hash(es) picked and sets it upon next run
+- File ./.scriptversion
+* Folder ./bin with all .bin files inside it replaced with new Setup script
+* Sorted result message according to "Pick type of hash" dialog (sha256 first then md5)
+* Better marking of results and file name in script (bolded font wherever was possible)
+* Uninstall Hash Checker only (without possibility of removing other files (no more browsing), auto-checked if Hash Checker already installed)
+
+
+What's new in v3.8.5
+
++ Auto-selecting users language (english if there's no users language in selection)
+* Fixed potential problem in detecting "strange" zenity versions
+
+
+What's new in v3.8.5
+
+* Support for ALL GNU/Linux OSes (now works in Debian, Mint, OpenSuSE, PCLinuxOS GNOME, Ubuntu...)
+* Hash result message now shows N/A instead of '' for unchecked hash
+* Better code sorting in Hash Checker and Setup scripts
+- Quotes (') from calculated hash
+* All Manuals
+* Setup's 'Install or Remove' dialog now has second column named "Pick a task"
+* Aborted install message in selected language only
+
+
+What's new in v3.8.4
+
+* Install script:
+  * Install script removed/merged in Setup script
+  * Install and Uninstall of Hash Checker or any other file removal
+  * First asks for language, then displays License in selected language
+  * If during install name of the script is empty, now asks it again, doesn't abort install (unless pressed Cancel)
+  + Hidden dir .HashCheck which holds info about installed lang, script name and it's version
+  + Detecting Hash Checker script during file remove
+  + Terminal uninstall option (--uninstall)
+
+* Hash script:
+  * Small changes in Hash Checker script (custom button labels)
+
+* Other
+  - Traditional chinese translation (too much untranslated (where are you, cwchien?!))
+  - Debian 5.xx and Ubuntu 8.xx support (doesn't work even through terminal installation)
+  * Manuals updated
+
+
+What's new in v3.8.3.2
+
+* Updated License.txt for all languages*
+	(* except Traditional Chinese)
+
+
+What's new in v3.8.3.1 (v3.8.3 fix)
+
+* Fixed GUI install for Debian 5.xx and Ubuntu 8.04 LTS machines
+
+
+What's new in v3.8.3
+
+* Install script:
+ + Language switches for (faster) instalation through Terminal (type --help to display all available switches)
+ + Shows license before installing
+
+* Hash script:
+ + File name of checked file in hash result message
+ * Shorter name for all .bin files (removed '_data' from file name)
+ * Small changes in code
+
+* Other
+ * Correction in License.txt
+
+
+What's new in v3.8.2
+
++ Greek translation
++ License.txt for all languages
+- All "read me first"'s except english and croatian
+* Saving hash .txt files at same location where checked file is
+* Finally proper search in Google
+
+
+What's new in v3.8.1
+
+* Install script:
+  * Small changes with language names inside Install script
+  * Mayor optimization of Install script
+
+* Hash script:
+  + French and German translation
+  - Opening of text editor is no longer necessary because of smarter and better web search
+  * .txt files of calculated hash saves in checked file's dir only if you choose to open web browser when prompt
+  * Opening two tabs of web search when both hash types were selected (thanx for the notice, cwchien)
+  * Now also checks system files (but doesn't save hash results in system maps, of course ;))
+  * No more path to file which used to be there when browsing for file instead of direct-clicking on it
+  * Mayor improvement in web search results (much more accurate)
+
+
+What's new in v3.8
+
+* Install script:
+  + Check if running as root (if so, warns you and exits)
+  + Check if installed successfully
+  * Has a name "Install HashCheck" in titlebar with version number which it "reads" from ".scriptversion" file
+  + Spanish and Traditional Chinese in most parts of the script
+
+* Hash script:
+  + Check for files with 0 byte size and warning about pointless hash checking
+  + Checking for allready existing hash files made by HashCheck script and prompt to delete old file(s)
+  * Merged hash result and prompt messages into one
+  + Running google.com in web browser to search for file hash (beta)
+  + Traditional Chinese translation
+  * Updated Spanish translation
+
+* Translator
+  - No more Translation script! Replaced it with 'Translation' file which will be packed in all future releases
+
+
+What's new in v3.7.1
+
++ Spanish translation
+- Some trash from Install script (was marked as comment, but it wasn't necessary :))
+* Small correction in Manual (eng).txt
+
+
+What's new in v3.7
+
++ Searching for file if right-clicked to no file
+* Optimized code using "function" function
+
+
+What's new in v3.6.1
+
+* Bug in path with space in it (loading of calculated hash(es) into message box didn't work in
+  some cases)
+
+
+What's new in v3.6-fix
+
+* Stupid bug removed from en_data.bin (one-too-many quote sign (sorry guys!))
+
+
+What's new in v3.6
+
+- Warning when canceling hash check
++ Progress bar (for better progress tracking)
+* Canceling text editor now opens a message with calculated hash(es) (created .txt files are
+  auto-removed)
+* More code optimization
+
+
+What's new in v3.5.1
+
+* Changed package name from CalcHashInstall into InstallHashCheck (makes more sence now)
+* Smaller changes inside both Check scripts according to a new name
++ Name of selected file in 'Select type of hash' dialog (for more transparent way of work)
+
+
+What's new in v3.5
+
+* Minor changes in calc script
+* Mayor rewrite of install script
+* Dual language version (English and Croatian, can be set during install)
+- Open and Save dialogs from "Install" script (doesn't need them any more)
+
+
+What's new in v3.3.1
+
++ Option to open text editor (to check on calculated hash)
+* Salutes and notifys only if you cancel text editor
+* Small fixes of English translations
+
+
+What's new in v3.3 (first English version!)
+
++ Install script (since v3.0)
++ Opening of calculation files (.txt) with users favourite text editor
+- CRC32 hash (introduced in v3.2, but many don't have or use this binary)
+* Small changes inside calc script
+* "Manual.txt", "Readme.txt"

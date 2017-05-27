@@ -1,0 +1,1243 @@
+#!/bin/bash
+#================ Info: ================#
+# Script name	:	Setup 3.8			#
+# (Un)Installs	:	Hash Checker 4.x.x	#
+# Author		:	Cooleech			#
+# Contact me	:	cooleech@gmail.com	#
+# Homepage		:	http://goo.gl/aRIk	#
+#=======================================#
+
+#=======================================>	Variables	<=======================================#
+AppName="Hash Checker"
+AppVer="4.0.9"
+Sv="3.8"
+WindowSize="--width 620 --height 450"
+DotHCdir="$HOME/.HashCheck"
+SetupConfigFile="$DotHCdir/Setup.rc"
+License="This software is free, and all mods made from this software or any of it's part must stay free!
+If you make mod of this script, you must declare me as author of original script with link to it's site.
+Using any of my scripts, <b>YOU</b> are the only person responsible for any damage caused to your hardware, software or even your health!"
+
+#=======================================>	Language	<=======================================#
+# Reset all languages
+deState="FALSE"
+elState="FALSE"
+enState="FALSE"
+esState="FALSE"
+fiState="FALSE"
+frState="FALSE"
+hrState="FALSE"
+itState="FALSE"
+roState="FALSE"
+ruState="FALSE"
+skState="FALSE"
+slState="FALSE"
+zhState="FALSE"
+
+case $LANG in
+de*)
+IsRoot="Sie sollten dieses Skript nicht als 'root' ausführen!
+Führen Sie es bitte als 'normalen' Benutzer aus."
+MissingZenity="Es sieht so aus, als wäre Zenity nicht auf ihrem System installiert!
+Installieren Sie Zenity bitte manuell und führen sie dann $0 erneut aus.
+Die Installation ist aufgrund einer fehlenden Abhängigkeit abgebrochen worden!"
+SysLang="Deutsch"
+deState="TRUE"
+;;
+el*)
+IsRoot="Δεν πρέπει να τρέξετε το script ως 'Υπερχρήστης'!
+Παρακαλώ, τρέξτε το script σαν απλός χρήστης."
+MissingZenity="Φαίνεται σαν να μην είναι εγκατεστημένο στο σύστημά σας το zenity!
+Παρακαλώ εγκαταστήστε το zenity χειροκίνητα και στη συνέχεια εκτελέστε πάλι $0.
+Η εγκατάσταση ακυρώθηκε λόγω έλλειψης εξάρτησης!"
+SysLang="Ελληνικά"
+elState="TRUE"
+;;
+es*)
+IsRoot="¡No deberías ejecutar este instalador como 'root'!
+Por favor, ejecútalo como usuario 'normal'."
+MissingZenity="¡Parece que zenity no esta instalado en su sistema!
+Por favor instale zenity manualmente y despues ejecute $0 otra vez.
+¡La instalación ha sido cancelada por una dependencia faltante!"
+SysLang="Español"
+esState="TRUE"
+;;
+fi*)
+IsRoot="Sinun EI pitäisi ajaa tätä skriptiä pääkäyttäjänä (root)!
+Ole hyvä ja aja se 'normaalina' käyttäjänä."
+MissingZenity="Näyttää siltä ettei zenity:ä ole asennettu järjestelmääsi!
+Ole hyvä ja asenna zenity manuaalisesti ja aja sitten $0 uudestaan.
+Asennus on peruutettu johtuen puuttuvista riippuvuuksista!"
+SysLang="Suomi"
+fiState="TRUE"
+;;
+fr*)
+IsRoot="Vous ne devriez pas exécuter cet installateur en tant que superutilisateur (root) !
+Veuillez plutôt le lancer en tant que simple utilisateur."
+MissingZenity="Le paquet zenity n'a pas été détecté sur votre  système !
+Veuillez installer manuellement zenity, puis relancez $0.
+L'installation est annulée à cause de cette dépendance manquante !"
+SysLang="Français"
+frState="TRUE"
+;;
+hr*)
+IsRoot="Ne biste trebali pokretati ovu skriptu kao 'root'!
+Molim, pokrenite je kao 'obični' korisnik."
+MissingZenity="Izgleda da nemate instaliran zenity na vašem sustavu!
+Molim, instalirajte zenity ručno te opet pokušajte pokrenuti $0.
+Instalacija se otkazuje zbog nedostatka ovisnosti!"
+SysLang="Hrvatski"
+hrState="TRUE"
+;;
+it*)
+IsRoot="Non dovresti eseguire questo script come 'root'!
+Eseguilo come un utente 'normale'."
+MissingZenity="Sembra che sul tuo sistema non sia installato Zenity!
+Per favore installa zenity manualmente e poi esegui $0 ancora.
+L'installazione è stata cancellata a causa della mancanza
+di una dipendenza."
+SysLang="Italiano"
+itState="TRUE"
+;;
+ro*)
+IsRoot="Nu ar trebui să rulați acest script ca 'root'!
+Vă rog să il rulați ca utilizator 'normal'."
+MissingZenity="Se pare că zenity nu este instalat!
+Vă rog să îl instalați manual și să rulați $0 din nou.
+Instalarea anulată din cauza unei dependențe nesatisfăcute!"
+SysLang="Română"
+roState="TRUE"
+;;
+ru*)
+IsRoot="Нет необходимости запускать скрипт от 'root'!
+Пожалуйста, запустите от обычного пользователя"
+MissingZenity="В вашей системе не установлен Zenity!
+Пожалуйста, установите Zenity вручную, а затем повторите установку $0 еще раз.
+Установка невозможна из-за отсутствия зависимостей!"
+SysLang="Русский"
+ruState="TRUE"
+;;
+sk*)
+IsRoot="Nemali by ste spúa tento skript ako 'root'!
+Prosím, spustite ho ako normálny pouívateŸ."
+MissingZenity="Vyzerá to, e zenity nie je vo vaom systéme naintalovaný!
+Prosím, naintalujte zenity ruène a potom opä spustite $0.
+Intalácia je zruená z dôvodu chýbajúcich závislostí!"
+SysLang="Slovenèina"
+skState="TRUE"
+;;
+sl*)
+IsRoot="Ne poganjaj te skripte kot 'skrbnik'.!
+Prosim, zaženi skripto kot 'uporabnik'."
+MissingZenity="Izgleda, da na sistemu ni nameščenega paketa 'zenity'!
+Namesti 'zenity' in potem zaženi znova $0.
+Namestitev je prekinjena zaradi manjkajočih odvisnosti!"
+SysLang="Slovenski"
+slState="TRUE"
+;;
+zh*)
+IsRoot="您不該以「root」的身份執行這個腳本！
+請務必以「一般」使用者的身份執行它。"
+MissingZenity="您的作業系統似乎沒有安裝 zenity！
+請手動安裝 zenity 後再執行一次 $0。
+由於缺少相依套件的緣故，已取消安裝！"
+SysLang="正體中文"
+zhState="TRUE"
+;;
+*)
+IsRoot="You shouldn't run this script as 'root'!
+Please, run it as 'normal' user."
+MissingZenity="Looks like there's no zenity installed on your system!
+Please install zenity manually and then run $0 again.
+Installation is canceled due to missing dependency!"
+SysLang="English"
+enState="TRUE"
+;;
+esac
+
+clear
+echo "=========================== SETUP HASH CHECKER $AppVer ==========================
+
+Checking user..."
+if [ "$UID" = "0" ]; then # Check if running as root
+ echo "ERROR: Running as root!"
+ zenity --error --text "$IsRoot"
+ exit 1
+fi
+echo -e "`whoami`\n[ OK ]\n
+Checking if zenity installed..."
+
+which zenity
+if [ $? != 0 ]; then
+ echo "$MissingZenity" > /tmp/hc-setup-error.txt
+ which xdg-user-dirs-update
+ if [ $? = 0 ]; then
+  xdg-open /tmp/hc-setup-error.txt
+ else
+  echo -e "$MissingZenity\n[FAIL]\n"
+ fi
+ exit 1
+fi
+echo -e "[ OK ]\n"
+# Rename and fix old config files
+if [ -e "$DotHCdir/HashCheck.rc" ]; then
+ HCrcFile=`cat $DotHCdir/HashCheck.rc`
+ Str2Rm="HASH CHECKER'S" # Was present in old .rc file version
+ HCrcFile="${HCrcFile//$Str2Rm/#}" # Fix .rc file
+ echo "$HCrcFile" > $DotHCdir/HashCheck.rc # Save fixed .rc file
+ mv "$DotHCdir/HashCheck.rc" "$SetupConfigFile"
+ mv "$DotHCdir/HashCheck.ini" "$DotHCdir/HC.conf"
+fi
+
+echo "Checking if xdg-user-dirs-update installed..."
+which xdg-user-dirs-update
+if [ $? != 0 ]; then
+ echo -e "[WARN]\nNo xdg-user-dirs-update installed!\nHash Checker won't be able to work correctly!\n"
+else
+ echo -e "[ OK ]\n"
+. ~/.config/user-dirs.dirs # Import variables
+fi
+
+# Set desktop icon dir
+if [ "$XDG_DESKTOP_DIR" = "" ]; then
+ if [ -d "$HOME/Desktop" ]; then
+  XDG_DESKTOP_DIR="$HOME/Desktop"
+ else
+  XDG_DESKTOP_DIR="$HOME"
+ fi
+fi
+
+if [ -e "$SetupConfigFile" ]; then
+. $SetupConfigFile # Import Setup.rc variables
+fi
+
+function LANGUAGE_VARIABLES { # Load selected lang variables
+case "$SysLang" in
+"Deutsch")
+NextBtnLbl="Weiter"
+FirstStepText="Willkommen zum Setup von Hash Checker $AppVer!\n\n
+Hash Checker für Linux/Unix ist ein kleines und nützliches Tool, um die MD5, SHA1 und/oder SHA256 Werte Ihrer Downloads zu checken.
+\n\n\nUm mit der Installations zu beginnen, drücken Sie bitte auf \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Deutsch von Robert Tödter</small></small>"
+InstallAbort="Abgebrochen!
+Das Skript wurde nicht installiert!"
+RemoveWarning="Deinstallieren?"
+AreYouSure="Sind Sie sicher, dass sie Hash Ckecker $INSTALLED_SCRIPT_VERSION deinstallieren wollen?"
+ExitBtnLbl="--cancel-label=_Beenden"
+UninstallBtnLbl="--ok-label=_Deinstallieren"
+UninstallSuccess="Hash Checker deinstalliert!"
+SecondStepText="Wenn Sie diese Software benutzen wollen, müssen Sie diesen Bedingungen zustimmen:
+\n
+$License
+\n\n\n
+Stimmen Sie allen Bedingungen zu?"
+RefuseBtnLbl="--cancel-label=Ich stimme _nicht zu"
+AcceptBtnLbl="--ok-label=Ich _stimme zu"
+ScriptName="Hash überprüfen"
+Congrats="Glückwünsch!"
+InstallSuccess="Das Skript wurde erfolgreich installiert!"
+LangNameAndTranslator="German by Robert Tödter"
+ChFileToChk="Wähle eine Datei zum Überprüfen aus"
+SelOneFile="Sie müssen mindestens eine Datei wählen!"
+IsFolder="ist ein Verzeichnis.
+Dieses Skript funktioniert nicht mit Verzeichnissen!"
+ZeroByteFile="hat 0 Bytes!
+Das Überprüfen der Hash dieser Datei wäre sinnlos!"
+FoundOldHashFile="Alte Hash-Datei gefunden:"
+DeleteOldHashFile="Wollen Sie diese löschen (empfohlen)?"
+KeepItDeleteIt="--cancel-label=\"_Behalten\" --ok-label=\"_Löschen\""
+NoReadRight="Sie haben keine Leseberechtigung für diese Datei!"
+NoFileAtPath="Kann die Datei <b>\$FileNoPath</b> nicht finden!\nDie Datei wurde entweder umbenannt, bewegt, oder gelöscht!"
+SelTypeOfCheck="Überprüfungsart für <b>\$FileNoPath</b> wählen"
+WhatHash="Was soll"
+ToCheck="überprüft werden"
+SaveInTextFile="Ergebnis in einer Textdatei speichern"
+ChkMD5="Überprüfe MD5-Hash"
+ChkSHA1="Überprüfe SHA1-Hash"
+ChkSHA256="Überprüfe SHA256-Hash"
+ExplainCalc="Die Geschwindigkeit hängt von der Dateigröße von '\$FileNoPath',\nder Festplatten und CPU-Geschwindigkeit ab, es könnte mehrere Minuten dauern. Bitte warten..."
+File="Datei:"
+ResultPrompt="Möchten Sie den Browser öffnen und die Hashes mit Google vergleichen?"
+ExitGoogleIt=" --cancel-label=\"_Beenden\" --ok-label=\"_Googlen\""
+;;
+"Ελληνικά")
+NextBtnLbl="Επόμενο"
+FirstStepText="Καλώς ήλθατε στο Hash Checker $AppVer Setup!\n\n
+Το Hash Checker για Linux/Unix είναι ένα μικρό και χρήσιμο εργαλείο για τον έλεγχο των κατεβασμένων και άλλων αρχείων με MD5, SHA1 και SHA256 hash.
+\n\n\nΓια να ξεκινήσετε την εγκατάσταση, κάντε κλικ στο κουμπί \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Ελληνικά από vagrale13</small></small>"
+InstallAbort="Ματαιώθηκε!
+Το script ΔΕΝ εγκατεστάθηκε!"
+RemoveWarning="Απεγκατάσταση?"
+AreYouSure="Είστε σίγουροι ότι θέλετε να απεγκαταστήσετε το Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Εγκατάλειψη"
+UninstallBtnLbl="--ok-label=_Απεγκατάσταση"
+UninstallSuccess="Το Hash Checker απεγκαταστήθηκε"
+SecondStepText="Εάν επιθυμείτε να χρησιμοποιήσετε αυτό το λογισμικό θα πρέπει να συμφωνήσετε με τους όρους:
+\n
+$License
+\n\n\n
+Συμφωνείτε με όλους αυτούς τους όρους?"
+RefuseBtnLbl="--cancel-label=_Διαφωνώ"
+AcceptBtnLbl="--ok-label=_Συμφωνώ"
+ScriptName="Ελέγξτε hash"
+Congrats="Συγχαρητήρια!"
+InstallSuccess="Το script εγκαταστάθηκε με επιτυχία!"
+LangNameAndTranslator="Greek by vagrale13"
+ChFileToChk="Επιλέξτε ένα αρχείο για έλεγχο"
+SelOneFile="Πρέπει να επιλέξετε ένα αρχείο!"
+IsFolder="είναι κατάλογος.
+Αυτό το script δεν μπορεί να δουλέψει με καταλόγους!"
+ZeroByteFile="έχει 0 bytes!
+Ο έλεγχος hash αυτού του αρχείου είναι μάταιος!"
+FoundOldHashFile="Βρέθηκε παλιό αρχείο hash:"
+DeleteOldHashFile="Θέλετε να το διαγράψει (συνιστάται)?"
+KeepItDeleteIt="--cancel-label=\"_Διατήρηση\" --ok-label=\"Δια_γραφή\""
+NoReadRight="Δεν έχετε δικαιώματα ανάγνωσης για αυτό το αρχείο!"
+NoFileAtPath="Δεν βρέθηκε το αρχείο <b>\$FileNoPath</b>!\nΤο αρχείο είτε έχει μετονομαστεί, μετακινηθεί ή αφαιρεθεί!" 
+SelTypeOfCheck="Επιλέξτε τον τύπο ελέγχου για το αρχείο <b>\$FileNoPath</b>"
+WhatHash="Τι"
+ToCheck="να ελέγξει"
+SaveInTextFile="Αποθήκευση αποτελεσμάτων hash σε αρχείο κειμένου"
+ChkMD5="Έλεγχος MD5 hash"
+ChkSHA1="Έλεγχος SHA1 hash"
+ChkSHA256="Έλεγχος SHA256 hash"
+ExplainCalc="Ανάλογα με το μέγεθος αρχείου '\$FileNoPath',\nδίσκου και ταχύτητα επεξεργαστή, Αυτό μπορεί να διαρκέσει λίγο. Παρακαλώ περιμένετε..."
+File="Αρχείο:"
+ResultPrompt="Θέλετε να ανοίξετε τον επεξεργαστή κειμένου και τον web browser για να συγκρίνει τα hash(es) από το Google?"
+ExitGoogleIt=" --cancel-label=\"_Εγκατάλειψη\" --ok-label=\"Αναζήτηση στο _Google\""
+;;
+"English")
+NextBtnLbl="Next"
+FirstStepText="Welcome to Hash Checker $AppVer Setup!\n\n
+Hash Checker for Linux/Unix is small and useful tool for checking your downloads and other files with MD5, SHA1 and/or SHA256 hash.
+\n\n\nTo begin installing, please click \"$NextBtnLbl >\" button.
+\n\n\n
+<small><small>English by Cooleech</small></small>"
+InstallAbort="Aborted!
+Script is NOT installed!"
+RemoveWarning="Uninstall?"
+AreYouSure="Are you sure you want to uninstall Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Exit"
+UninstallBtnLbl="--ok-label=_Uninstall"
+UninstallSuccess="Hash Checker is uninstalled!"
+SecondStepText="If you wish to use this software you must agree to these terms:
+\n
+$License
+\n\n\n
+Do you agree with all of these terms?"
+RefuseBtnLbl="--cancel-label=I _disagree"
+AcceptBtnLbl="--ok-label=I _agree"
+ScriptName="Check hash"
+Congrats="Congratulation!"
+InstallSuccess="Script successfuly installed!"
+LangNameAndTranslator="English by Cooleech"
+ChFileToChk="Choose a file to check"
+SelOneFile="You must select one file only!"
+IsFolder="is a folder.
+This script cannot work with folders!"
+ZeroByteFile="has 0 bytes!
+Checking hash of this file is pointless!"
+FoundOldHashFile="Found old hash file:"
+DeleteOldHashFile="Would you like to delete it (recommended)?"
+KeepItDeleteIt="--cancel-label=\"_Keep it\" --ok-label=\"_Delete it\""
+NoReadRight="You don't have read permission for this file!"
+NoFileAtPath="Cannot find <b>\$FileNoPath</b> file!\nFile is either renamed, moved or removed!"
+SelTypeOfCheck="Select check type for <b>\$FileNoPath</b> file"
+WhatHash="What"
+ToCheck="to check"
+SaveInTextFile="Save hash result into text file"
+ChkMD5="Checking MD5 hash"
+ChkSHA1="Checking SHA1 hash"
+ChkSHA256="Checking SHA256 hash"
+ExplainCalc="Depending on '\$FileNoPath' file size,\ndisc and CPU speed, it could take up to several minutes. Please wait..."
+File="File:"
+ResultPrompt="Would you like to open web browser and compare hash from Google?"
+ExitGoogleIt=" --cancel-label=\"_Exit\" --ok-label=\"_Google it\""
+;;
+"Español")
+NextBtnLbl="Siguiente"
+FirstStepText="¡Bienvenido a Comprobador de Hash $AppVer Setup!\n\n
+Comprobador de Hash para Linux/Unix es una pequeña y útil herramienta para comprobar tus descargas y otros archivos con claves MD5, SHA1 y/o SHA256.
+\n\n\nPara comenzar a instalar, por favor haga click en el botón \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Español por Daniel Scott</small></small>"
+InstallAbort="¡Abortado!
+¡El script NO fue instalado!"
+RemoveWarning="¿Deinstalar?"
+AreYouSure="¿Está seguro de que quiere desinstalar Comprobador de Hash $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Salir"
+UninstallBtnLbl="--ok-label=_Deinstalar"
+UninstallSuccess="¡Comprobador de Hash ha sido desinstalado!"
+SecondStepText="Si desea usar este software debe estar de acuerdo con estos terminos:
+\n
+$License
+\n\n\n
+¿Está de acuerdo con todas estas condiciones?"
+RefuseBtnLbl="--cancel-label=_No estoy de acuerdo"
+AcceptBtnLbl="--ok-label=_Estoy de acuerdo"
+ScriptName="Comprobar hash"
+Congrats="¡Felicitaciones!"
+InstallSuccess="¡El script fue exitósamente instalado!"
+LangNameAndTranslator="Spanish by Daniel Scott"
+ChFileToChk="Seleccione el archivo a comprobar"
+SelOneFile="¡Debes seleccionar un archivo!"
+IsFolder="es un directorio.
+¡Este script no esta hecho para trabajar con directorios!"
+ZeroByteFile="tiene 0 bytes!
+¡Es inútil comprobar el hash de este archivo!"
+FoundOldHashFile="Se encontró un antiguo archivo hash:"
+DeleteOldHashFile="¿Le gustaría borrarlo?"
+KeepItDeleteIt="--cancel-label=\"_Manténgalo\" --ok-label=\"_Bórrelo\""
+NoReadRight="¡No tiene permiso de lectura para este archivo!"
+NoFileAtPath="¡No se puede conseguir el archivo <b>\$FileNoPath</b>!\nEl archivo ha sido renombrado, movido o eliminado."
+SelTypeOfCheck="Seleccione el tipo de comprobación para el archivo <b>\$FileNoPath</b>"
+WhatHash="Que"
+ToCheck="comprobar"
+SaveInTextFile="Guardar resultado de hash en archivo de texto"
+ChkMD5="Comprobando hash MD5"
+ChkSHA1="Comprobando hash SHA1"
+ChkSHA256="Comprobando hash SHA256"
+ExplainCalc="Dependiendo del tamaño de archivo de '\$FileNoPath',\ny de la velocidad del disco duro y CPU, podría tomar varios minutos. Por favor espere..."
+File="Archivo:"
+ResultPrompt="¿Le gustaría abrir el navegador web para comparar el hash(es) desde Google?"
+ExitGoogleIt=" --cancel-label=\"_Salir\" --ok-label=\"Búsquelo en _Google\""
+;;
+"Français")
+NextBtnLbl="Suivant"
+FirstStepText="Bienvenue dans l'installateur de Hash Checker $AppVer !\n\n
+Hash Checker pour Linux/Unix est un petit utilitaire permettant de vérifier téléchargements et autres fichiers avec les empreintes MD5, SHA1 et/ou SHA256.
+\n\n\nPour l'installer dès à présent, veuillez cliquer sur le bouton \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Français par Ludovic Troisi</small></small>"
+InstallAbort="Annulé !
+Le script n'est PAS installé !"
+RemoveWarning="Désinstaller ?"
+AreYouSure="Êtes-vous sûr de vouloir désinstaller Hash Checker $INSTALLED_SCRIPT_VERSION ?"
+ExitBtnLbl="--cancel-label=_Quitter"
+UninstallBtnLbl="--ok-label=_Désinstaller"
+UninstallSuccess="Hash Checker désinstallé !"
+SecondStepText="Si vous désirez utiliser cette application, vous devez accepter cette clause:
+\n 
+$License
+\n\n\n 
+Acceptez-vous l'ensemble de ces termes ?"
+RefuseBtnLbl="--cancel-label=Je _refuse"
+AcceptBtnLbl="--ok-label=J'_accepte"
+ScriptName="Vérifier la somme"
+Congrats="Félicitations !"
+InstallSuccess="Le script a bien été installé !"
+LangNameAndTranslator="French by Ludovic Troisi"
+ChFileToChk="Choisissez un fichier à vérifier"
+SelOneFile="Vous devez choisir un fichier !"
+IsFolder="est un répertoire.
+Ce script ne fonctionne pas avec les répertoires !"
+ZeroByteFile="est vide (0 bytes) !
+Il est inutile de vérifier la somme de ce fichier !"
+FoundOldHashFile="Un ancien fichier de vérification de somme trouvé:"
+DeleteOldHashFile="Voulez-vous l'effacer (recommandé) ?"
+KeepItDeleteIt="--cancel-label=\"_Conserver\" --ok-label=\"_Supprimer\""
+NoReadRight="Vous n'êtes pas autorisé à lire ce fichier !"
+NoFileAtPath="Impossible de trouver le fichier <b>\$FileNoPath</b> !\nCe fichier a été renommé, déplacé ou supprimé !"
+SelTypeOfCheck="Choisissez un type de vérification pour le fichier <b>\$FileNoPath</b>"
+WhatHash="Cocher"
+ToCheck="le type désiré"
+SaveInTextFile="Enregistrer le résultat de l'empreinte en fichier texte"
+ChkMD5="Somme MD5 en cours de vérification"
+ChkSHA1="Somme SHA1 en cours de vérification"
+ChkSHA256="Somme SHA256 en cours de vérification"
+ExplainCalc="Selon la taille du fichier '\$FileNoPath',\nla vitesse du disque et du CPU, le processus peut être long. Veuillez patienter..."
+File="Fichier:"
+ResultPrompt="Voulez-vous ouvrir votre navigateur pour comparer les sommes ?"
+ExitGoogleIt=" --cancel-label=\"_Quitter\" --ok-label=\"Vérifier sur _Google\""
+;;
+"Hrvatski")
+NextBtnLbl="Naprijed"
+FirstStepText="Dobrodošli u Hash Checker $AppVer Setup!\n\n
+Hash Checker za Linux/Unix je mala i korisna skripta za provjeru vaših preuzimanja i drugih datoteka pomoću MD5, SHA1 i/ili SHA256 hasheva.
+\n\n\nZa početak instalacije molim kliknite na gumb \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Hrvatski by Cooleech</small></small>"
+InstallAbort="Otkazano!
+Skripta NIJE instalirana!"
+RemoveWarning="Odinstalirati?"
+AreYouSure="Sigurni ste da želite odinstalirati Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Izlaz"
+UninstallBtnLbl="--ok-label=_Odinstaliraj"
+UninstallSuccess="Hash Checker je odinstaliran!"
+SecondStepText="Ako želite koristiti ovaj softver, morate pristati na ove uvjete:
+\n
+$License
+\n\n\n
+Prihvaćate li sve ove uvjete?"
+RefuseBtnLbl="--cancel-label=_Ne prihvaćam"
+AcceptBtnLbl="--ok-label=_Prihvaćam"
+ScriptName="Provjeri hash"
+Congrats="Čestitam!"
+InstallSuccess="Skripta uspješno instalirana!"
+LangNameAndTranslator="Croatian by Cooleech"
+ChFileToChk="Odaberite datoteku za provjeru"
+SelOneFile="Morate odabrati samo jednu datoteku!"
+IsFolder="je mapa.
+Ova skripta ne može raditi s mapama!"
+ZeroByteFile="ima 0 bajtova!
+Provjera hasha ove datoteke je besmislena!"
+FoundOldHashFile="Pronađena stara hash datoteka:"
+DeleteOldHashFile="Želite li je obrisati (preporučeno)?"
+KeepItDeleteIt="--cancel-label=\"_Zadrži je\" --ok-label=\"_Obriši je\""
+NoReadRight="Nemate dozvolu čitanja ove datoteke!"
+NoFileAtPath="Ne mogu naći <b>\$FileNoPath</b> datoteku!\nDatoteka je preimenovana, premještena ili izbrisana!"
+SelTypeOfCheck="Odaberite vrstu provjere za <b>\$FileNoPath</b> datoteku"
+WhatHash="Što"
+ToCheck="provjeriti"
+SaveInTextFile="Spremi rezultat hasha u tekstualnu datoteku"
+ChkMD5="Provjeravam MD5 hash"
+ChkSHA1="Provjeravam SHA1 hash"
+ChkSHA256="Provjeravam SHA256 hash"
+ExplainCalc="Ovisno o veličini '\$FileNoPath' datoteke,\nbrzini diska i procesora, to može potrajati i do nekoliko minuta. Molim, pričekajte..."
+File="Datoteka:"
+ResultPrompt="Želite li otvoriti web preglednik i usporediti hash s Googlea?"
+ExitGoogleIt=" --cancel-label=\"_Izlaz\" --ok-label=\"_Proguglaj\""
+;;
+"Italiano")
+NextBtnLbl="Avanti"
+FirstStepText="Benvenuto all'installazione di Hash Checker $AppVer!\n\n
+Hash Checker per Linux/Unix è un piccolo ed utile strumento per verificare i tuoi download ed altri file con gli hash MD5, SHA1 e/o SHA256.
+\n\n\nPer iniziare l'installazione permi sul pulsante \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Italiano autore Roberto Scaccaglia</small></small>"
+InstallAbort="Annullato!
+Lo script NON è stato installato!"
+RemoveWarning="Disinstalla?"
+AreYouSure="Sei sicuro di voler disinstallare Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Esci"
+UninstallBtnLbl="--ok-label=_Disinstalla"
+UninstallSuccess="Hash Checker è stato disinstallato!"
+SecondStepText="Se vuoi usare questo software devi accettare le seguenti condizioni:
+\n
+$License
+\n\n\n
+Accetti tutte queste condizioni?"
+RefuseBtnLbl="--cancel-label=_Non accetto"
+AcceptBtnLbl="--ok-label=_Accetto"
+ScriptName="Verifica gli hash"
+Congrats="Congratulazioni!"
+InstallSuccess="Lo script è stato installato con successo!"
+LangNameAndTranslator="Italian by Roberto Scaccaglia"
+ChFileToChk="Seleziona un file da verificare"
+SelOneFile="Devi selezionare un solo file!"
+IsFolder="è una cartella.
+Questo script non può funzionare con le cartelle!"
+ZeroByteFile="ha 0 byte!
+La verifica dell'hash di questo file è inutile!"
+FoundOldHashFile="Trovato un vecchio file di hash:"
+DeleteOldHashFile="Vuoi eliminarlo (raccomandato)?"
+KeepItDeleteIt="--cancel-label=\"_Mantieni\" --ok-label=\"_Rimuovi\""
+NoReadRight="Non hai i permessi di lettura per questo file!"
+NoFileAtPath="Impossibile trovare il file <b>\$FileNoPath</b>!\nIl file potrebbe essere stato rinominato, spostato o rimosso!"
+SelTypeOfCheck="Seleziona il tipo di verifica per il file <b>\$FileNoPath</b>"
+WhatHash="Cosa"
+ToCheck="verificare"
+SaveInTextFile="Salva il risultato dell' hash in un file di testo"
+ChkMD5="Verifica hash MD5 in corso"
+ChkSHA1="Verifica hash SHA1 in corso"
+ChkSHA256="Verifica hash SHA256 in corso"
+ExplainCalc="In base alla dimensione del file '\$FileNoPath',\nal disco ed alla velocità della CPU, il processo potrebbe impiegare molti minuti.\nPer favore attendi..."
+File="File:"
+ResultPrompt="Vuoi aprire il browser web e verificare l'hash con Google?"
+ExitGoogleIt=" --cancel-label=\"_Esci\" --ok-label=\"_Verifica in Google\""
+;;
+"Русский")
+NextBtnLbl="Далее"
+FirstStepText="Добро пожаловать в установщик Hash Checker $AppVer!\n\n
+Hash Checker маленький и полезный инструмент подсчета MD5, SHA1 и SHA256 хешей ваших файлов для ОС Linux/Unix.
+\n\n\nДля продолжения установки, нажмите \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Русский by Sergei Chistyakov</small></small>"
+InstallAbort="Отмена!
+Скрипт НЕ установлен"
+RemoveWarning="Удалить?"
+AreYouSure="Вы уверены, что хотите удалить Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Закрыть"
+UninstallBtnLbl="--ok-label=_Удалить"
+UninstallSuccess="Hash Checker удалён!"
+SecondStepText="Для установки и дальнейшего использования скрипта, необходимо согласие со следующими условиями:
+\n
+$License
+\n\n\n
+Вы согласны с данными условиями?"
+RefuseBtnLbl="--cancel-label=Я _не согласен"
+AcceptBtnLbl="--ok-label=Я _согласен"
+ScriptName="Проверить хеш"
+Congrats="Готово!"
+InstallSuccess="Установка скрипта завершена!"
+LangNameAndTranslator="Russian by Sergei Chistyakov"
+ChFileToChk="Укажите файл для подсчёта"
+SelOneFile="Вы должны указать только один файл"
+IsFolder="это каталог.
+Этот скрипт не работает с каталогами!"
+ZeroByteFile="0 байт!
+Хэш проверка для данного файла не имеет смысла!"
+FoundOldHashFile="Найден старый хеш-файл:"
+DeleteOldHashFile="Желаете удалить его (рекомендуется)?"
+KeepItDeleteIt="--cancel-label=\"_Сохранить\" --ok-label=\"_Удалить\""
+NoReadRight="У Вас нет прав для чтения данного файла!"
+NoFileAtPath="Файл <b>\$FileNoPath</b> не найден!\nВозможно файл переименован, удалёнили перемещён!"
+SelTypeOfCheck="Выберите алгоритм хеширования для <b>\$FileNoPath</b> файла"
+WhatHash="Что"
+ToCheck="проверяем"
+SaveInTextFile="Сохранить результат хеширования в текстовый файл"
+ChkMD5="Проверка MD5 хэш"
+ChkSHA1="Проверка SHA1 хэш"
+ChkSHA256="Проверка SHA256 хэш"
+ExplainCalc="Пожалуйста подождите, в зависимости от размера файла '\$FileNoPath'\nи производительности вашего ПК, подсчет может занять некоторое время..."
+File="Файл:"
+ResultPrompt="Хотите открыть браузер и сравнить хеш из Google?"
+ExitGoogleIt=" --cancel-label=\"_Закрыть\" --ok-label=\"_Google\""
+;;
+"Română")
+NextBtnLbl="Următorul"
+FirstStepText="Bine ați venit la instalarea Hash Checker $AppVer!\n\n
+Hash Checker este un mic program pentru verificarea hash-urilor MD5, SHA1 sau/și SHA256 a fișierelor descărcate și nu numai.
+\n\n\nPentru a începe instalarea, apasați pe \"$NextBtnLbl >\".
+\n\n\n
+<small><small>Română de Tuhut Vladut Emanuel</small></small>"
+InstallAbort="Abandonat!
+Scriptul NU este instalat!"
+RemoveWarning="Dezinstalează?"
+AreYouSure="Sunteți sigur că doriți să dezinstalați Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Ieșire"
+UninstallBtnLbl="--ok-label=_Dezinstalează"
+UninstallSuccess="Hash Checker a fost dezinstalat!"
+SecondStepText="Dacă doriți să folosiți acest program trebuie sa fiți deacord cu următoarele condiții:
+\n
+$License
+\n\n\n
+Sunteți deacord cu aceste condiții?"
+RefuseBtnLbl="--cancel-label=_Nu sunt deacord"
+AcceptBtnLbl="--ok-label=_Sunt deacord"
+ScriptName="Verifică hash"
+Congrats="Felicitări!"
+InstallSuccess="Scriptul a fost instalat cu succes!"
+LangNameAndTranslator="Romanian by Tuhut Vladut Emanuel"
+ChFileToChk="Alegeți un fișier pentru verificare"
+SelOneFile="Trebuie selectat doar un singur fișier!"
+IsFolder="este director.
+Acest script nu poate prelucra directoare!"
+ZeroByteFile="are 0 octeți!
+Verificarea hashului pentru acest fișier este inutilă!"
+FoundOldHashFile="A fost găsit un fișier hash vechi:"
+DeleteOldHashFile="Doriți sa îl stergeți (recomandat)?"
+KeepItDeleteIt="--cancel-label=\"_Pastreaza-l\" --ok-label=\"_Sterge-l\""
+NoReadRight="Nu aveți permisiunea sa accesați fișierul!"
+NoFileAtPath="Nu se poate găsi fișierul <b>\$FileNoPath</b>!\nFișierul a fost probabil redenumit, mutat sau șters!"
+SelTypeOfCheck="Alegeți tipul verificării pentru fișierul <b>\$FileNoPath</b>"
+WhatHash="Ce să"
+ToCheck="fie verificat"
+SaveInTextFile="Salvare hash-uri intr-un fișier"
+ChkMD5="Verific hashul MD5"
+ChkSHA1="Verific hashul SHA1"
+ChkSHA256="Verific hashul SHA256"
+ExplainCalc="În funcție de mărimea fișierului '\$FileNoPath', disc si viteza CPU,\nar trebui sa ia câteva minute. Vă rog sa asteptați..."
+File="Fișier:"
+ResultPrompt="Doriți să deschid browerul web pentru compararea hash pe Google?"
+ExitGoogleIt=" --cancel-label=\"_Ieșire\" --ok-label=\"_Googleste-l\""
+;;
+"Slovenèina")
+NextBtnLbl="Dalej"
+FirstStepText="Víta vás nastavenie Hash Checker $AppVer!\n\n
+Hash Checker pre Linux/Unix je malý a uitoèný nástroj pre kontrolu a sahovanie súborov MD5, SHA1 a/alebo SHA256 hash.
+\n\n\nPre zaèiatok intalácie kliknite na \"$NextBtnLbl >\" tlaèítko.
+\n\n\n
+<small><small>Slovenèina zo milboy</small></small>"
+InstallAbort="Zruené!
+Skript NIE JE naintalovaný!"
+RemoveWarning="Odintalácia?"
+AreYouSure="Chcete skutoène odintalova Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Koniec"
+UninstallBtnLbl="--ok-label=_Odintalácia"
+UninstallSuccess="Hash Checker je odintalovaný!"
+SecondStepText="Ak chcete pouíva nasledovný softvér musíte súhlasi s nasledujúcimi podmienkami:
+\n
+$License
+\n\n\n
+Súhlasíte so vetkým èo je uvedené v zmluve?"
+RefuseBtnLbl="--cancel-label=_Nesúhlasím"
+AcceptBtnLbl="--ok-label=_Súhlasím"
+ScriptName="Kontrola súètu"
+Congrats="Blahoelám!"
+InstallSuccess="Skript bol úspene naintalovaný!"
+LangNameAndTranslator="Slovakian by milboy"
+ChFileToChk="Vyberte súbor pre kontrolu"
+SelOneFile="Môete vybra iba jeden súbor!"
+IsFolder="to je prieèinok.
+Skript nedokáe pracova s prieèinkami!"
+ZeroByteFile="má 0 bytov!
+Checking hash of this file is pointless!"
+FoundOldHashFile="Nájdený starí súbor so súètom:"
+DeleteOldHashFile="Chcete ho odstráni (odporúèané)?"
+KeepItDeleteIt="--cancel-label=\"_Ponecha\" --ok-label=\"_Odstráni\""
+NoReadRight="Nemáte oprávnenie na èítanie pre tento súbor!"
+NoFileAtPath="Nedá sa nájs <b>\$FileNoPath</b> súbor!\nSúbor je buï premenovaný, presunutý alebo odstránený!"
+SelTypeOfCheck="Vyberte typ súètu pre <b>\$FileNoPath</b> súbor"
+WhatHash="Èo"
+ToCheck="skontrolova"
+SaveInTextFile="Uloi výsledok súètu v textovom súbore"
+ChkMD5="Kontrola MD5 súètu"
+ChkSHA1="Kontrola SHA1 súètu"
+ChkSHA256="Kontrola SHA256 súètu"
+ExplainCalc="Závisí od '\$FileNoPath' veŸkosti súboru,\ndisku a rýchlosti CPU, èo môe trva niekoŸko minút. Prosím èakajte..."
+File="Súbor:"
+ResultPrompt="Chceli by ste otvori webový prehliadaè a porovna súèet v Google?"
+ExitGoogleIt=" --cancel-label=\"_Ukonèi\" --ok-label=\"_Googlit\""
+;;
+"Slovenski")
+NextBtnLbl="Naprej"
+FirstStepText="Dobrodošli v Hash Checker $AppVer setup!\n\n
+Hash Checker za Linux/Unix je majhen in uporaben pripomoček za preverjanje integritete slik in ostalih datotek z MD5, SHA1 in/ali SHA256 hashev.
+\n\n\nProsim, pritisni  \"$NextBtnLbl >\" gumb za začetek.
+\n\n\n
+<small><small>Slovenski by Franc Zganjar</small></small>"
+InstallAbort="Prekinjeno!
+Scripta NI nameščena!"
+RemoveWarning="Odstrani?"
+AreYouSure="Ali si prepričan, da želiš odstraniti Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Izhod"
+UninstallBtnLbl="--ok-label=_Odstrani"
+UninstallSuccess="Hash Checker je odstranjen!"
+SecondStepText="Če želiš uporabljati ta program, se moraš strinjati z naslednjimi pogoji:
+\n
+$License
+\n\n\n
+Ali se strinjaš s temi pogoji?"
+RefuseBtnLbl="--cancel-label=_Se ne strinjam"
+AcceptBtnLbl="--ok-label=_Strinjam se"
+ScriptName="Preveri hash"
+Congrats="Čestitam!"
+InstallSuccess="Skripta je uspešno nameščena!"
+LangNameAndTranslator="Slovenian by Franc Zganjar"
+ChFileToChk="Izberi datoteko za preverjanje"
+SelOneFile="Izbrati moraš samo eno datoteko!"
+IsFolder="je mapa.
+Ta skripta ne deluje na mapah!"
+ZeroByteFile="ima 0 bajtov!
+Preverjanje hasha te datoteke je nesmiselna!"
+FoundOldHashFile="Najdena je stara hash datoteka:"
+DeleteOldHashFile="Ali jo želite izbrisati (priporočeno)?"
+KeepItDeleteIt="--cancel-label=\"_Obdrži jo\" --ok-label=\"_Izbriši jo\""
+NoReadRight="Nimate dovoljenja za branje te datoteke!"
+NoFileAtPath="Ne najdem datoteke <b>\$FileNoPath</b>!\nDatoteka je preimenovana ali odstranjena!"
+SelTypeOfCheck="Izberi vrsto preverjanja za <b>\$FileNoPath</b> datoteko"
+WhatHash="Kaj"
+ToCheck="preveriti"
+SaveInTextFile="Shrani rezultat hasha v tekstovno datoteko"
+ChkMD5="Preverjam MD5 hash"
+ChkSHA1="Preverjam SHA1 hash"
+ChkSHA256="Preverjam SHA256 hash"
+ExplainCalc="Ovisno od velikosti '\$FileNoPath' datoteke,\nhitrosti diska in CPU-ja, lahko to traja tudi nekaj minut. Prosim počakajte..."
+File="Datoteka:"
+ResultPrompt="Želite odpreti spletni brskalnik in primerjati hash preko Googla?"
+ExitGoogleIt=" --cancel-label=\"_Izhod\" --ok-label=\"_Poguglaj\""
+;;
+"Suomi")
+NextBtnLbl="Seuraava"
+FirstStepText="Tervetuloa Hash Checker $AppVer Asennukseen!\n\n
+Hash Checker for Linux/Unix on pieni ja hyödyllinen työkalu tarkistaaksesi lataamiesi ja muiden tiedostojen MD5, SHA1 ja/tai SHA256 hash, eli tarkistus summan.
+\n\n\nAloittaaksesi asennus klikkaa \"$NextBtnLbl >\" näppäintä.
+\n\n\n
+<small><small>Finnish by K4P1</small></small>"
+InstallAbort="Keskeytetty!
+Skriptiä EI ole asennettu!"
+RemoveWarning="Poista?"
+AreYouSure="Oletko varma että haluat poistaa Hash Checker $INSTALLED_SCRIPT_VERSION?"
+ExitBtnLbl="--cancel-label=_Lopeta"
+UninstallBtnLbl="--ok-label=_Poista"
+UninstallSuccess="Hash Checker on poistettu!"
+SecondStepText="Käyttääksesi tätä ohjelmaa, sinun pitää hyväksyä nämä ehdot:
+\n
+$License
+\n\n\n
+Hyväksytkö nämä ehdot?"
+RefuseBtnLbl="--cancel-label=_En hyväksy"
+AcceptBtnLbl="--ok-label=_Hyväksyn"
+ScriptName="Tarkista hash-summa"
+Congrats="Onnittelut!"
+InstallSuccess="Skriptin asennus onnistui!"
+LangNameAndTranslator="Finnish by K4P1"
+ChFileToChk="Valitse tarkistettava tiedosto"
+SelOneFile="Sinun pitää valita vain yksi tiedosto!"
+IsFolder="on kansio.
+Tämä skripti ei toimi kansioiden kanssa!"
+ZeroByteFile="on 0 tavua!
+Tämän tiedoston hash-summan tarkistus on turhaa!"
+FoundOldHashFile="Löydetty vanha hash tiedosto:"
+DeleteOldHashFile="Haluatko poistaa sen (suositeltavaa)?"
+KeepItDeleteIt="--cancel-label=\"_Pidä se\" --ok-label=\"_Tuhoa se\""
+NoReadRight="Sinulla ei ole lukuoikeuksia tähän tiedostoon!"
+NoFileAtPath="Ei löydä <b>\$FileNoPath</b> tiedostoa!\nTiedosto on joko uudelleennimetty, siirretty tai poistettu!"
+SelTypeOfCheck="Valitse tarkistustyyppi <b>\$FileNoPath</b> tiedostolle"
+WhatHash="Mitä"
+ToCheck="tarkistaa"
+SaveInTextFile="Tallenna hash tulos tekstitiedostoon"
+ChkMD5="Tarkistaa MD5 summaa"
+ChkSHA1="Tarkistaa SHA1 summaa"
+ChkSHA256="Tarkistaa SHA256 summaa"
+ExplainCalc="Riippuen '\$FileNoPath' tiedoston koosta,\nlevystä ja CPU:n nopeudesta, tämä voi viedä useita minuutteja. Ole hyvä ja odota..."
+File="Tiedosto:"
+ResultPrompt="Haluatko avata nettiselaimen ja verrata hash-summaa Googlesta?"
+ExitGoogleIt=" --cancel-label=\"_Lopeta\" --ok-label=\"_Googlaa se\""
+;;
+"正體中文")
+NextBtnLbl="下一步"
+FirstStepText="歡迎使用 Hash Checker $AppVer 安裝程式！\n\n
+運行於 Linux/Unix 系統的 Hash Checker 是個輕巧又好用的工具，可檢驗您的下載與其它檔案的 MD5、SHA1 及（或）SHA256 雜湊碼。
+\n\n\n請點擊『$NextBtnLbl >』按鈕開始安裝。
+\n\n\n
+<small><small>正體中文 by Cheng-Wei Chien</small></small>"
+InstallAbort="安裝已中止！
+腳本「並未」安裝！"
+RemoveWarning="移除？"
+AreYouSure="您確定要移除 Hash Checker $INSTALLED_SCRIPT_VERSION？"
+ExitBtnLbl="--cancel-label=_結束"
+UninstallBtnLbl="--ok-label=_移除"
+UninstallSuccess="已移除 Hash Checker！"
+SecondStepText="若您想要使用本軟體，您必須同意這些條款：
+\n
+$License
+\n\n\n
+您同意這些條款嗎？"
+RefuseBtnLbl="--cancel-label=我_不同意"
+AcceptBtnLbl="--ok-label=我_同意"
+ScriptName="檢驗雜湊碼"
+Congrats="恭喜！"
+InstallSuccess="已成功安裝腳本！"
+LangNameAndTranslator="Traditional Chinese by Cheng-Wei Chien"
+ChFileToChk="請選取一個檔案來檢驗"
+SelOneFile="您只能選擇一個檔案！"
+IsFolder="是個資料夾。
+本腳本無法用於資料夾！"
+ZeroByteFile="大小為 0 個位元組！
+檢驗此檔案的雜湊碼是毫無意義的！"
+FoundOldHashFile="找到舊的雜湊檔："
+DeleteOldHashFile="您要刪除它（建議）嗎？"
+KeepItDeleteIt="--cancel-label=\"_保留它\" --ok-label=\"_刪除它\""
+NoReadRight="您沒有此檔案的讀取權限！"
+NoFileAtPath="找不到 <b>\$FileNoPath</b> 檔！
+檔案可能已重新命名、移到別處或已刪除！"
+SelTypeOfCheck="請選擇 <b>\$FileNoPath</b> 檔案的檢驗類型"
+WhatHash="您想"
+ToCheck="檢驗什麼"
+SaveInTextFile="將計算結果存成純文字檔"
+ChkMD5="正在檢查 MD5 雜湊碼"
+ChkSHA1="正在檢查 SHA1 雜湊碼"
+ChkSHA256="正在檢查 SHA256 雜湊碼"
+ExplainCalc="取決於 '\$SelectedFile'\n的檔案大小、硬碟與 CPU 速度，可能會花上幾分鐘。請稍候..."
+File="檔案："
+ResultPrompt="您要開啟網路瀏覽器並與 Google 上的雜湊碼比對嗎？"
+ExitGoogleIt=" --cancel-label=\"_結束\" --ok-label=\"_在 Google 上搜尋它\""
+;;
+"")
+exit 1
+;;
+esac
+
+# All lang variables
+NextBtnLbl="--ok-label=$NextBtnLbl >"
+FirstStepText="<span font_desc=\"Bold 18\">$AppName $AppVer Setup</span>\n\n$FirstStepText"
+SecondStepText="<span font_desc=\"Bold 18\">$AppName $AppVer Setup</span>\n\n$SecondStepText"
+ThirdStepText="<span font_desc=\"Bold 18\">$RemoveWarning</span>\n\n\n\n$AreYouSure"
+
+echo "Checking zenity version..."
+ZenVer=`zenity --version`
+echo "$ZenVer"
+ZenVer="${ZenVer//'.'/}"
+ZenVer=${ZenVer:0:3} # Start from first, get 3 numbers
+if [ $ZenVer -lt 224 ]; then
+ echo -e "[WARN]\nZenity version is below 2.24.0!\nCustom labels won't be available!\n"
+ ExitBtnLbl=""
+ NextBtnLbl=""
+ RefuseBtnLbl=""
+ AcceptBtnLbl=""
+ UninstallBtnLbl=""
+ KeepItDeleteIt=""
+ ExitGoogleIt=""
+else
+ echo -e "[ OK ]\n"
+fi
+}
+
+#=======================================>	Step funcs	<=======================================#
+function FIRST_STEP { # Info
+zenity $WindowSize --question --title "$AppName $AppVer - Setup" --text "$FirstStepText" "$ExitBtnLbl" "$NextBtnLbl"
+if [ $? = 0 ]; then
+ if [ -d $DotHCdir ]; then
+  THIRD_STEP # Was already installed, so skip license
+ else
+  SECOND_STEP
+ fi
+else
+ exit 1
+fi
+}
+
+function SECOND_STEP { # Show license
+zenity $WindowSize --question --title "$AppName $AppVer - Setup" --text "$SecondStepText" "$RefuseBtnLbl" "$AcceptBtnLbl"
+if [ $? = 0 ]; then
+ THIRD_STEP
+else
+ zenity --error --title "$AppName $AppVer - Setup" --text "$InstallAbort" --timeout=2
+ exit 1
+fi
+}
+
+function THIRD_STEP { # (Un)Install
+if [ "$Uninstall" = "TRUE" ]; then
+ zenity $WindowSize --question --title "$AppName $AppVer - Setup" --text "$ThirdStepText" "$ExitBtnLbl" "$UninstallBtnLbl"
+ if [ $? = 0 ]; then
+  rm -f -r $DotHCdir
+  rm -f "$XDG_DESKTOP_DIR"/HashChecker.desktop
+  rm -f "$INSTALLED_SCRIPT_PATH$INSTALLED_SCRIPT_NAME"
+  rm -f "$HOME/.gnome2/nautilus-scripts/$ScriptName"
+  rm -f "$HOME/.config/caja/scripts/$ScriptName"
+  zenity --info --text "$UninstallSuccess" --timeout=2
+ fi
+else
+ if [ ! -d "$DotHCdir" ]; then
+  mkdir "$DotHCdir"
+ fi
+ if [ "$INSTALLED_SCRIPT_NAME" != "" ]; then
+  rm -f "$DotHCdir/$INSTALLED_SCRIPT_NAME" # In case of new lang available previously-named script MUST BE removed
+  rm -f "$HOME/.gnome2/nautilus-scripts/$INSTALLED_SCRIPT_NAME" # ...also it's previously-named nautilus symlink
+  rm -f "$HOME/.config/caja/scripts/$INSTALLED_SCRIPT_NAME" # ...also it's previously-named caja symlink
+ fi
+ echo -e "# SETUP CONFIG FILE - DO NOT EDIT!!!\n\nINSTALLED_SCRIPT_LANG=\"$SysLang\"\nINSTALLED_SCRIPT_NAME=\"$ScriptName\"\nINSTALLED_SCRIPT_VERSION=$AppVer\nINSTALLED_SCRIPT_PATH=$DotHCdir" > $DotHCdir/Setup.rc
+ #cd "${0%/*}" # CD into proper working dir (copy fix!!!)
+ cp "$PWD/files/hashchecker.png" "$DotHCdir/hashchecker.png"
+ echo -e "[Desktop Entry]\nVersion=$AppVer\nEncoding=UTF-8\nType=Application\nName=Hash Checker\nComment=Check your downloads\nCategories=Application;\nExec=\"$DotHCdir/$ScriptName\"\nIcon=$DotHCdir/hashchecker.png\nTerminal=false\nStartupNotify=true" > "$XDG_DESKTOP_DIR"/HashChecker.desktop
+ chmod 777 "$XDG_DESKTOP_DIR"/HashChecker.desktop
+
+ echo "#!/bin/bash
+# ============================================================================================================================================================= #
+# What	:	Hash Checker
+# Which	:	4.0.9
+# Who	:	Cooleech
+# Where	:	cooleech@gmail.com
+# With	:	GPLv2
+# ============================================================================================================================================================= #
+# $LangNameAndTranslator
+
+AppVer=\"$AppVer\"
+HConFile=\"\$HOME/.HashCheck/HC.conf\"
+SavedSettings=\`cat \$HConFile\`
+
+which xdg-user-dirs-update
+if [ \$? = 0 ]; then
+ . ~/.config/user-dirs.dirs # Import variables
+fi
+
+# Set desktop icon dir
+if [ \"\$XDG_DESKTOP_DIR\" = \"\" ]; then
+ if [ -d \"\$HOME/Desktop\" ]; then
+  XDG_DESKTOP_DIR=\"\$HOME/Desktop\"
+ else
+  XDG_DESKTOP_DIR=\"\$HOME\"
+ fi
+fi
+
+if [ -e \$HConFile ]; then
+ . \$HConFile # Import variables
+fi
+
+if [ \"\$1\" = \"\" ]; then
+ SelectedFile=\`zenity --title=\"$ChFileToChk\" --file-selection\`
+fi
+
+if [ \"\$SelectedFile\" = \"\" ]; then
+ if [ \$# -gt 1 ]; then
+  zenity --error --text=\"$SelOneFile\"
+  exit 1
+ fi
+ SelectedFile=\"\$1\"
+ if [ \"\$1\" = \"\" ]; then
+  exit 1
+ fi
+fi
+
+if [ -d \"\$1\" ]; then
+ zenity --error --text=\"<b>\$1</b> $IsFolder\"
+ exit 1
+fi
+
+SelectedFileNameFix=\"\${SelectedFile//'&'/&amp;}\" # Fix for ampersand simbol
+
+if [ \`stat --printf=\"%s\" \"\$SelectedFile\"\` = \"0\" ]; then
+ zenity --warning --text=\"<b>\$SelectedFileNameFix</b> $ZeroByteFile\"
+ exit 1
+fi
+
+if [ -d \"\${SelectedFile%/*}\" ]; then # Check if dir or file
+ FileNoPath=\"\${SelectedFileNameFix##*/}\"
+ FilePath=\"\${SelectedFile%/*}/\" # md5sum, sha1sum and sha256sum need file path
+else
+ FileNoPath=\"\$SelectedFileNameFix\"
+ FilePath=\"./\" # md5sum, sha1sum and sha256sum need file path
+fi
+
+function DELETE_OLD_HASH_FILE {
+zenity --question --title=\"Hash Checker \$AppVer\" --text=\"$FoundOldHashFile\n<b>\$FileNoPath\$HashFile</b>\n\n$DeleteOldHashFile\" \\
+			$KeepItDeleteIt
+if [ \$? = 0 ]; then
+ rm -f \"\$SelectedFile\$HashFile\" # Must keep path
+fi
+}
+
+if [ -e \"\$SelectedFile\".md5sum ]; then # Must keep path
+ HashFile=\".md5sum\"
+ DELETE_OLD_HASH_FILE
+fi
+
+if [ -e \"\$SelectedFile\".sha1sum ]; then # Must keep path
+ HashFile=\".sha1sum\"
+ DELETE_OLD_HASH_FILE
+fi
+
+if [ -e \"\$SelectedFile\".sha256sum ]; then # Must keep path
+ HashFile=\".sha256sum\"
+ DELETE_OLD_HASH_FILE
+fi
+
+# Get last states
+if [ \"\$MD5_HASH_CHECKED\" = \"\" ]; then
+ MD5state=\"TRUE\"
+else
+ MD5state=\"\$MD5_HASH_CHECKED\"
+fi
+
+if [ \"\$SHA1_HASH_CHECKED\" = \"\" ]; then
+ SHA1state=\"FALSE\"
+else
+ SHA1state=\"\$SHA1_HASH_CHECKED\"
+fi
+
+if [ \"\$SHA256_HASH_CHECKED\" = \"\" ]; then
+ SHA256state=\"FALSE\"
+else
+ SHA256state=\"\$SHA256_HASH_CHECKED\"
+fi
+
+if [ \"\$SAVE_TO_TEXT_FILE\" = \"\" ]; then
+ TextFileState=\"FALSE\"
+else
+ TextFileState=\"\$SAVE_TO_TEXT_FILE\"
+fi
+
+if [ -r \"\$SelectedFile\" ]; then
+ TypeOfHash=\`zenity --width=400 --height=290 --list --checklist --title=\"Hash Checker \$AppVer\" --text=\"$SelTypeOfCheck\" \\
+			--column \"$WhatHash\" --column \"$ToCheck\" \$MD5state MD5 \$SHA1state SHA1 \$SHA256state SHA256 \$TextFileState \"$SaveInTextFile\"\`
+else
+ zenity --error --text \"$NoReadRight\"
+ exit 1
+fi
+
+if ! [ -e \"\$SelectedFile\" ]; then
+ zenity --error --text \"$NoFileAtPath\"
+ exit 1
+fi
+
+# Reset all
+MD5state=\"FALSE\"
+SHA1state=\"FALSE\"
+SHA256state=\"FALSE\"
+TextFileState=\"FALSE\"
+
+case \$TypeOfHash in
+MD5*) # MD5 with any other
+MD5state=\"TRUE\"
+(
+echo \"# $ChkMD5. $ExplainCalc\"
+md5sum \"\$SelectedFile\" > /tmp/\"\$FileNoPath\".md5sum
+) | zenity --width=\"400\" --progress --title=\"$ChkMD5\" --text=\"\" --percentage=0 --auto-close --pulsate
+;;
+esac
+
+case \$TypeOfHash in
+*SHA1*) # SHA1 with any other
+SHA1state=\"TRUE\"
+(
+echo \"# $ChkSHA1. $ExplainCalc\"
+sha1sum \"\$SelectedFile\" > /tmp/\"\$FileNoPath\".sha1sum
+) | zenity --width=\"400\" --progress --title=\"$ChkSHA1\" --text=\"\" --percentage=0 --auto-close --pulsate
+;;
+esac
+
+case \$TypeOfHash in
+*SHA256*) # SHA256 with any other
+SHA256state=\"TRUE\"
+(
+echo \"# $ChkSHA256. $ExplainCalc\"
+sha256sum \"\$SelectedFile\" > /tmp/\"\$FileNoPath\".sha256sum
+) | zenity --width=\"400\" --progress --title=\"$ChkSHA256\" --text=\"\" --percentage=0 --auto-close --pulsate
+;;
+esac
+
+case \$TypeOfHash in
+*${SaveInTextFile%% *}*) # Save in text file with any other
+TextFileState=\"TRUE\"
+;;
+esac
+
+case \$TypeOfHash in
+${SaveInTextFile%% *}*|\"\") # Nothing to do, just exit
+exit 1
+;;
+esac
+
+# Save current settings
+CurrentSettings=\"# HASH CHECKER SETTINGS
+
+MD5_HASH_CHECKED=\$MD5state
+SHA1_HASH_CHECKED=\$SHA1state
+SHA256_HASH_CHECKED=\$SHA256state
+SAVE_TO_TEXT_FILE=\$TextFileState\"
+
+if [ \"\$SavedSettings\" != \"\$CurrentSettings\" ]; then
+ echo \"\$CurrentSettings\" > \$HConFile
+fi
+
+if [ -e /tmp/\"\$FileNoPath\".md5sum ]; then
+ MD5hash=\`cat /tmp/\"\$FileNoPath\".md5sum\`
+ MD5WithoutPath=\"\${MD5hash%%  \$SelectedFile}\"
+else
+ MD5WithoutPath=\"N/A\"
+fi
+
+if [ -e /tmp/\"\$FileNoPath\".sha1sum ]; then
+ SHA1hash=\`cat /tmp/\"\$FileNoPath\".sha1sum\`
+ SHA1WithoutPath=\"\${SHA1hash%%  \$SelectedFile}\"
+else
+ SHA1WithoutPath=\"N/A\"
+fi
+
+if [ -e /tmp/\"\$FileNoPath\".sha256sum ]; then
+ SHA256hash=\`cat /tmp/\"\$FileNoPath\".sha256sum\`
+ SHA256WithoutPath=\"\${SHA256hash%%  \$SelectedFile}\"
+else
+ SHA256WithoutPath=\"N/A\"
+fi
+
+if [ \"\$TextFileState\" = \"TRUE\" ]; then
+ if [ -e /tmp/\"\$FileNoPath\".md5sum ]; then
+  md5hashFile=\`cat /tmp/\"\$FileNoPath\".md5sum\`
+  echo \"\$md5hashFile\" >> \"\$SelectedFile\".md5sum
+ fi
+ if [ -e /tmp/\"\$FileNoPath\".sha1sum ]; then
+  sha1hashFile=\`cat /tmp/\"\$FileNoPath\".sha1sum\`
+  echo \"\$sha1hashFile\" >> \"\$SelectedFile\".sha1sum
+ fi
+ if [ -e /tmp/\"\$FileNoPath\".sha256sum ]; then
+  sha256hashFile=\`cat /tmp/\"\$FileNoPath\".sha256sum\`
+  echo \"\$sha256hashFile\" >> \"\$SelectedFile\".sha256sum
+ fi
+fi
+
+zenity --question --title=\"Hash Checker \$AppVer\" --no-wrap --text=\"$File <b>\$FileNoPath</b>
+\nMD5 hash: <b>\$MD5WithoutPath</b>\nSHA1 hash: <b>\$SHA1WithoutPath</b>\nSHA256 hash: <b>\$SHA256WithoutPath</b>\n
+$ResultPrompt\"$ExitGoogleIt
+
+if [ \$? = 0 ]; then
+ case \$TypeOfHash in
+ MD5*)
+ SearchString=\"\$MD5WithoutPath \"
+ ;;
+ esac
+ case \$TypeOfHash in
+ *SHA1*)
+ SearchString=\"\$SearchString\$SHA1WithoutPath \"
+ ;;
+ esac
+ case \$TypeOfHash in
+ *SHA256*)
+ SearchString=\"\$SearchString\$SHA256WithoutPath \"
+ ;;
+ esac
+ SearchString=\"\$SearchString\$FileNoPath\"
+ which xdg-user-dirs-update
+ if [ \$? = 0 ]; then
+  xdg-open http://www.google.com/search?q=\"\${SearchString// /'+'}\" # Search fix, replacing \" \" with +
+ else
+  zenity --error --text \"ERROR: NO XUD\"
+ fi
+fi
+
+# Cleanup /tmp
+if [ -e /tmp/\"\$FileNoPath\".md5sum ]; then
+ rm -f /tmp/\"\$FileNoPath\".md5sum
+fi
+if [ -e /tmp/\"\$FileNoPath\".sha1sum ]; then
+ rm -f /tmp/\"\$FileNoPath\".sha1sum
+fi
+if [ -e /tmp/\"\$FileNoPath\".sha256sum ]; then
+ rm -f /tmp/\"\$FileNoPath\".sha256sum
+fi
+
+exit 0
+
+# =========================================================== Created using Setup v$Sv by Cooleech ============================================================ #" >> "$DotHCdir/$ScriptName"
+ chmod 777 "$DotHCdir/$ScriptName"
+ if [ -d $HOME/.gnome2/nautilus-scripts/ ]; then # Check if dir exists
+  rm -f "$HOME/.gnome2/nautilus-scripts/$ScriptName" # Remove old script or symlink if it exists
+  ln -s "$DotHCdir/$ScriptName" "$HOME/.gnome2/nautilus-scripts/$ScriptName" # Create symlink
+ else # No nautilus-scripts dir
+  which caja # Check for MATE's file manager
+  if [ $? = 0 ]; then
+   if [ ! -d $HOME/.config/caja/scripts ]; then # Check if dir doesn't exist
+    mkdir $HOME/.config/caja/scripts # Make caja scripts dir
+   fi
+   ln -s "$DotHCdir/$ScriptName" "$HOME/.config/caja/scripts/$ScriptName" # Create symlink
+  fi
+ fi
+ zenity --info --title "$AppName $AppVer - Setup" --text "<b>$Congrats</b>\n\n$InstallSuccess" --timeout=3
+fi
+exit 0
+}
+
+#=======================================>	Check job	<=======================================#
+if [ -e $SetupConfigFile ]; then
+ if [ "$INSTALLED_SCRIPT_VERSION" = "$AppVer" ]; then # If same version
+  Uninstall="TRUE" # Start with uninstall
+  LANGUAGE_VARIABLES
+  THIRD_STEP
+ fi
+fi
+
+#=======================================>	Upd8 check	<=======================================#
+echo "Checking wget..."
+which wget
+if [ $? = 0 ]; then
+ echo -e "[ OK ]\n"
+ wget --waitretry=1 --tries=2 http://dl.dropbox.com/u/9350208/CurrentVersion -q | echo -e "Checking latest version of $AppName\n"
+ if [ -e ./CurrentVersion ]; then
+  CV=`cat ./CurrentVersion`
+  rm ./CurrentVersion
+  ThisVersion="${AppVer//'.'/}"
+  OnlineVersion="${CV//'.'/}"
+  if [ $ThisVersion -lt $OnlineVersion ]; then
+   echo -e "[INFO]\nNew version is available!\n"
+   zenity --question --title "$AppName $AppVer - Setup" --text "$AppName $CV is available\!\n\nWould you like to download it to $PWD?"
+   wget --waitretry=1 --tries=4 http://is.gd/HashChecker -q | echo -e "\nDownloading latest version of $AppName..." ####################################################################################### DODAT LINK, PREIMENOVAT PAKET TAKO DA NEMA VERZIJU I IMENU
+  fi
+ fi
+else
+ echo -e "[WARN]\nCan't find wget on your system, so I can't know if this script is in it's latest version. :("
+fi
+
+#=======================================>	GUI start	<=======================================#
+if [ "$INSTALLED_SCRIPT_LANG" != "$SysLang" ]; then # If installed lang and system lang do not match
+ SysLang=`zenity $WindowSize --list --title="$AppName $AppVer - Setup" --text="" --radiolist --column "   ? " --column \
+		"Sprache/Γλώσσα/Language/Idioma/Langue/Jezik/Lingua/Язык/Limbă/Jazyk/Kieli/語言" $deState Deutsch $elState Ελληνικά $enState English $esState \
+			Español $frState Français $hrState Hrvatski $itState Italiano $ruState Русский $roState Română $skState Slovenèina $slState Slovenski $fiState Suomi $zhState 正體中文`
+fi
+LANGUAGE_VARIABLES
+FIRST_STEP # Start wizard

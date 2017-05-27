@@ -1,0 +1,29 @@
+Zenity installation:
+
+* Debian (and Ubuntu) based systems:
+
+sudo apt-get install zenity
+
+
+* Red Hat (Fedora) based systems:
+
+sudo yum install zenity
+
+
+* SuSE based systems:
+
+sudo yast install zenity
+
+
+* Arch based systems:
+
+sudo pacman -Sy zenity
+
+
+These are 3 the most common ways of installing software from terminal. You should check what package system is used in your distro before installing anything.
+If you cannot see Hash Checker's icon on your desktop, please check your home folder or ~/Desktop folder inside it and manualy move it to any place you like.
+Thank you for using Hash Checker!
+
+May the Force be with you!
+
+Cooleech
