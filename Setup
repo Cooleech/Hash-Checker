@@ -921,7 +921,7 @@ else
  echo "#!/bin/bash
 # ============================================================================================================================================================= #
 # What	:	Hash Checker
-# Which	:	4.0.9
+# Which	:	$AppVer
 # Who	:	Cooleech
 # Where	:	cooleech@gmail.com
 # With	:	GPLv2
@@ -1213,26 +1213,22 @@ if [ -e $SetupConfigFile ]; then
 fi
 
 #=======================================>	Upd8 check	<=======================================#
-echo "Checking wget..."
-which wget
+echo "Checking curl..."
+which curl
 if [ $? = 0 ]; then
  echo -e "[ OK ]\n"
- wget --waitretry=1 --tries=2 https://raw.githubusercontent.com/Cooleech/Hash-Checker/master/CurrentVersion -q | echo -e "Checking latest version of $AppName\n"
- if [ -e ./CurrentVersion ]; then
-  CV=`cat ./CurrentVersion`
-  rm ./CurrentVersion
-  ThisVersion="${AppVer//'.'/}"
-  OnlineVersion="${CV//'.'/}"
-  if [ $ThisVersion -lt $OnlineVersion ]; then
-   echo -e "[INFO]\nNew version is available!\n"
-   zenity --question --title "$AppName $AppVer - Setup" --text "$AppName $CV is available\!\n\nWould you like to download it to $PWD?"
-   if [ $? = 0 ]; then
-    wget --waitretry=1 --tries=4 https://github.com/Cooleech/Hash-Checker/blob/master/HashCheck.tar.gz?raw=true -q -O $PWD/HashChecker-$CV.tar.gz | echo -e "\nDownloading $CV version of $AppName..."
-   fi
+ CV=`curl https://raw.githubusercontent.com/Cooleech/Hash-Checker/master/CurrentVersion`
+ ThisVersion="${AppVer//'.'/}"
+ OnlineVersion="${CV//'.'/}"
+ if [ $ThisVersion -lt $OnlineVersion ]; then
+  echo -e "[INFO]\nNew version is available!\n"
+  zenity --question --title "$AppName $AppVer - Setup" --text "$AppName $CV is available\!\n\nWould you like to download it to $HOME?"
+  if [ $? = 0 ]; then
+   curl https://github.com/Cooleech/Hash-Checker/raw/master/HashCheck.tar.gz -sLo $HOME/HashChecker-$CV.tar.gz
   fi
  fi
 else
- echo -e "[WARN]\nCan't find wget on your system, so I can't know if this script is in it's latest version. :("
+ echo -e "[WARN]\nCan't find curl on your system, so I can't know if this script is in it's latest version. :("
 fi
 
 #=======================================>	GUI start	<=======================================#
