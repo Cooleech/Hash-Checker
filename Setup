@@ -1,11 +1,11 @@
 #!/bin/bash
-#===============================================#
-# Script name	:	Setup 3.9
-# (Un)Installs	:	Hash Checker 4.x.x
-# Author	:	Cooleech
-# Contact me	:	cooleech@gmail.com
-# Homepage	:	http://goo.gl/aRIk
-#===============================================#
+#===================================#
+# Script name  : Setup 3.9
+# (Un)Installs : Hash Checker 4.x.x
+# Author       : Cooleech
+# Contact me   : cooleech@gmail.com
+# Homepage     : http://goo.gl/aRIk
+#===================================#
 
 #=======================================>	Variables	<=======================================#
 AppName="Hash Checker"
@@ -1229,6 +1229,7 @@ if [ $? = 0 ]; then
  fi
 else
  echo -e "[WARN]\nCan't find curl on your system, so I can't know if this script is in it's latest version. :("
+ zenity --warning --title "$AppName $AppVer" --text "There's no <b>curl</b> package installed on your system. :(\n\nPlease install it to enable auto-check for HC updates."
 fi
 
 #=======================================>	GUI start	<=======================================#
