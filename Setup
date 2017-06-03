@@ -1,4 +1,7 @@
 #!/bin/bash
+### BUG:
+### Ne uklanja stari link na skriptu!
+
 #===================================#
 # Script name  : Setup 3.9
 # (Un)Installs : Hash Checker 4.x.x
@@ -28,6 +31,7 @@ fiState="FALSE"
 frState="FALSE"
 hrState="FALSE"
 itState="FALSE"
+jaState="FALSE"
 roState="FALSE"
 ruState="FALSE"
 skState="FALSE"
@@ -98,6 +102,15 @@ L'installazione è stata cancellata a causa della mancanza
 di una dipendenza."
 SysLang="Italiano"
 itState="TRUE"
+;;
+ja*)
+IsRoot="このスクリプトは 'root' で実行しないでください！
+'normal' ユーザで実行してください。"
+MissingZenity="このシステムには zenity がインストールされていません！
+zenity を手動でインストールしてから、再度 $0 を実行してください。
+依存関係の不足があるため、インストレーションがキャンセルされました！"
+SysLang="日本語"
+jaState="TRUE"
 ;;
 ro*)
 IsRoot="Nu ar trebui să rulați acest script ca 'root'!
@@ -548,6 +561,54 @@ ExplainCalc="In base alla dimensione del file '\$FileNoPath',\nal disco ed alla 
 File="File:"
 ResultPrompt="Vuoi aprire il browser web e verificare l'hash con Google?"
 ExitGoogleIt=" --cancel-label=\"_Esci\" --ok-label=\"_Verifica in Google\""
+;;
+"日本語")
+NextBtnLbl="次へ"
+FirstStepText="Hash Checker $AppVer のセットアップにようこそ！\n\n
+Hash Checker for Linux/Unix はダウンロードしたファイルなどを MD5、SHA1 あるいは SHA256 ハッシュでチェックする、軽量で便利なツールです。
+\n\n\nインストールを開始するには、 \"$NextBtnLbl >\" ボタンをクリックしてください。
+\n\n\n
+<small><small>Japanese by Joe Hayashi</small></small>"
+InstallAbort="中止しました！
+スクリプトはインストールされていません！"
+RemoveWarning="アンインストール？"
+AreYouSure="Hash Checker $INSTALLED_SCRIPT_VERSION をアンインストールしてよろしいですか？"
+ExitBtnLbl="--cancel-label=終了"
+UninstallBtnLbl="--ok-label=アンインストール"
+UninstallSuccess="Hash Checker はアンインストールされました！"
+SecondStepText="このソフトウェアの利用にあたり、下記の条件に同意する必要があります：
+\n
+$License
+\n\n\n
+下記のすべての条件に同意しますか？"
+RefuseBtnLbl="--cancel-label=同意しない"
+AcceptBtnLbl="--ok-label=同意する"
+ScriptName="ハッシュをチェックする"
+Congrats="おめでとうございます！"
+InstallSuccess="スクリプトのインストールが成功しました！"
+LangNameAndTranslator="Japanese by Joe Hayashi"
+ChFileToChk="チェックするファイルを選択"
+SelOneFile="選択できるファイルは１つだけです！"
+IsFolder="はフォルダです。
+このスクリプトはフォルダに対応していません！"
+ZeroByteFile="はファイルサイズが 0 バイトです！
+このファイルに対するハッシュチェックは無意味です！"
+FoundOldHashFile="古いハッシュファイルが存在します："
+DeleteOldHashFile="このファイルを削除しますか（推奨）？"
+KeepItDeleteIt="--cancel-label=\"残す\" --ok-label=\"削除する\""
+NoReadRight="このファイルに対する読み出し権限がありません！"
+NoFileAtPath="<b>\$FileNoPath</b> ファイルが見つかりません！\nファイルはリネーム、移動、または削除されています！"
+SelTypeOfCheck="<b>\$FileNoPath</b> ファイルのチェックタイプを選択"
+WhatHash="何を"
+ToCheck="チェックしますか"
+SaveInTextFile="ハッシュ値をテキストファイルに保存"
+ChkMD5="MD5 ハッシュのチェック中"
+ChkSHA1="SHA1 ハッシュのチェック中"
+ChkSHA256="SHA256 ハッシュのチェック中"
+ExplainCalc="'\$FileNoPath' のファイルサイズ、 \nディスクと CPU スピードに依存しますが、処理に数分以上かかるかもしれません。しばらくお待ちください．．．"
+File="ファイル："
+ResultPrompt="webブラウザを開いて、Google でハッシュを比較しますか？"
+ExitGoogleIt=" --cancel-label=\"終了\" --ok-label=\"ググる\""
 ;;
 "Русский")
 NextBtnLbl="Далее"
@@ -1236,7 +1297,8 @@ fi
 if [ "$INSTALLED_SCRIPT_LANG" != "$SysLang" ]; then # If installed lang and system lang do not match
  SysLang=`zenity $WindowSize --list --title="$AppName $AppVer - Setup" --text="" --radiolist --column "   ? " --column \
 		"Sprache/Γλώσσα/Language/Idioma/Langue/Jezik/Lingua/Язык/Limbă/Jazyk/Kieli/語言" $deState Deutsch $elState Ελληνικά $enState English $esState \
-			Español $frState Français $hrState Hrvatski $itState Italiano $ruState Русский $roState Română $skState Slovenèina $slState Slovenski $fiState Suomi $zhState 正體中文`
+			Español $frState Français $hrState Hrvatski $itState Italiano $jaState 日本語 $ruState Русский $roState Română $skState Slovenèina $slState \
+				Slovenski $fiState Suomi $zhState 正體中文`
 fi
 LANGUAGE_VARIABLES
 FIRST_STEP # Start wizard
